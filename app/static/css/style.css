@@ -91,6 +91,31 @@ main {
     margin-bottom: 0.5rem;
 }
 
+/* Task preview in application cards */
+.task-preview {
+    border-top: 1px solid #dee2e6;
+    padding-top: 0.75rem;
+}
+
+.task-preview-item {
+    padding-left: 0.5rem;
+    border-left: 2px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.task-preview-item.task-in-progress {
+    border-left-color: #ffc107;
+}
+
+.task-preview-item.task-not-started {
+    border-left-color: #6c757d;
+}
+
+.task-group h6 {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .app-card {

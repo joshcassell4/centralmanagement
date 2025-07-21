@@ -37,6 +37,10 @@ class Application:
                 round((app['completed_tasks'] / app['total_tasks']) * 100) 
                 if app['total_tasks'] > 0 else 0
             )
+            
+            # Group tasks by status
+            app['in_progress_tasks'] = [t for t in tasks if t['status'] == 'In Progress']
+            app['not_started_tasks'] = [t for t in tasks if t['status'] == 'Not Started']
         
         return apps
     
