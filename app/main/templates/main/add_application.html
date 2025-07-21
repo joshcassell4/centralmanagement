@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Add Application - Central App Management{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <h1 class="mb-4">Add New Application</h1>
+        
+        <form method="POST" action="{{ url_for('main.add_application') }}">
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="name" name="name" 
+                       placeholder="Application Name" required autofocus>
+                <label for="name">Application Name *</label>
+            </div>
+            
+            <div class="form-floating mb-3">
+                <textarea class="form-control" id="description" name="description" 
+                          placeholder="Description" style="height: 100px"></textarea>
+                <label for="description">Description</label>
+            </div>
+            
+            <div class="form-floating mb-3">
+                <input type="url" class="form-control" id="repo_url" name="repo_url" 
+                       placeholder="Git Repository URL">
+                <label for="repo_url">Git Repository URL</label>
+                <div class="form-text">e.g., https://github.com/username/repository</div>
+            </div>
+            
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="tags" name="tags" 
+                       placeholder="Tags">
+                <label for="tags">Tags (comma-separated)</label>
+                <div class="form-text">e.g., frontend, react, production</div>
+            </div>
+            
+            <div class="form-floating mb-4">
+                <textarea class="form-control" id="notes" name="notes" 
+                          placeholder="Notes" style="height: 100px"></textarea>
+                <label for="notes">Notes</label>
+                <div class="form-text">e.g., ports used, configuration details, deployment information</div>
+            </div>
+            
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <a href="{{ url_for('main.index') }}" class="btn btn-secondary">
+                    <i class="bi bi-x-circle"></i> Cancel
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-circle"></i> Add Application
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

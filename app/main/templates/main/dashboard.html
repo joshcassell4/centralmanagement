@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Central App Management{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Status Dashboard</h1>
+
+<!-- Overall Statistics -->
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="stat-card bg-primary text-white">
+            <h3>{{ total_apps }}</h3>
+            <p>Total Applications</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card bg-info text-white">
+            <h3>{{ total_tasks }}</h3>
+            <p>Total Tasks</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card bg-success text-white">
+            <h3>{{ completed_tasks }}</h3>
+            <p>Completed Tasks</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card bg-warning text-dark">
+            <h3>{{ overall_completion }}%</h3>
+            <p>Overall Progress</p>
+        </div>
+    </div>
+</div>
+
+<!-- Overall Progress Bar -->
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Overall Completion</h5>
+        <div class="progress" style="height: 30px;">
+            <div class="progress-bar bg-success" role="progressbar" 
+                 style="width: {{ overall_completion }}%"
+                 aria-valuenow="{{ overall_completion }}" 
+                 aria-valuemin="0" 
+                 aria-valuemax="100">
+                {{ overall_completion }}%
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Most Active Applications -->
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Most Recently Updated</h5>
+            </div>
+            <div class="card-body">
+                {% if most_active %}
+                    <div class="list-group">
+                        {% for app in most_active %}
+                            <a href="{{ url_for('main.application_detail', app_id=app._id) }}" 
+                               class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">{{ app.name }}</h6>
+                                    <small class="text-muted">
+                                        {{ app.updated_at.strftime('%Y-%m-%d') if app.updated_at else 'N/A' }}
+                                    </small>
+                                </div>
+                                <p class="mb-1 small">{{ app.completed_tasks }}/{{ app.total_tasks }} tasks completed</p>
+                                <div class="progress" style="height: 15px;">
+                                    <div class="progress-bar" role="progressbar" 
+                                         style="width: {{ app.completion_percentage }}%">
+                                        {{ app.completion_percentage }}%
+                                    </div>
+                                </div>
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-muted">No applications yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Summary -->
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">All Applications Progress</h5>
+            </div>
+            <div class="card-body">
+                {% if applications %}
+                    {% for app in applications|sort(attribute='completion_percentage', reverse=true) %}
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between mb-1">
+                                <a href="{{ url_for('main.application_detail', app_id=app._id) }}" 
+                                   class="text-decoration-none">
+                                    {{ app.name }}
+                                </a>
+                                <span class="text-muted">{{ app.completion_percentage }}%</span>
+                            </div>
+                            <div class="progress" style="height: 20px;">
+                                <div class="progress-bar 
+                                     {% if app.completion_percentage == 100 %}bg-success
+                                     {% elif app.completion_percentage >= 50 %}bg-info
+                                     {% elif app.completion_percentage > 0 %}bg-warning
+                                     {% else %}bg-secondary{% endif %}" 
+                                     role="progressbar" 
+                                     style="width: {{ app.completion_percentage }}%">
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted">No applications to display.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Task Distribution by Status -->
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">Task Distribution</h5>
+    </div>
+    <div class="card-body">
+        <div class="row text-center">
+            <div class="col-md-4">
+                <h4 class="text-secondary">
+                    {{ applications|sum(attribute='total_tasks') - 
+                       applications|sum(attribute='completed_tasks') - 
+                       (applications|map(attribute='tasks', default=[])|sum(attribute='length')|default(0) - 
+                        applications|sum(attribute='completed_tasks')) }}
+                </h4>
+                <p>Not Started</p>
+            </div>
+            <div class="col-md-4">
+                <h4 class="text-warning">
+                    {{ (applications|map(attribute='tasks', default=[])|sum(attribute='length')|default(0) - 
+                        applications|sum(attribute='completed_tasks')) }}
+                </h4>
+                <p>In Progress</p>
+            </div>
+            <div class="col-md-4">
+                <h4 class="text-success">{{ completed_tasks }}</h4>
+                <p>Completed</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

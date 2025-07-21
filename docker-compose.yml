@@ -1,0 +1,28 @@
+version: '3.9'
+
+services:
+  dashboard:
+    build: .
+    ports:
+      - "8026:5000"
+    volumes:
+      - .:/app
+    environment:
+      - FLASK_APP=app
+      - FLASK_ENV=development
+      - MONGODB_URI=mongodb://mongodb:27017/app_management
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+    command: flask run --host=0.0.0.0 --port=5000 --reload
+
+  mongodb:
+    image: mongo:7
+    container_name: app_mongo
+    ports:
+      - "27018:27017"
+    volumes:
+      - ./mongo_data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=app_management
+    restart: unless-stopped

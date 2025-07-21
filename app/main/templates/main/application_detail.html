@@ -1,0 +1,265 @@
+{% extends "base.html" %}
+
+{% block title %}{{ application.name }} - Central App Management{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-start mb-4">
+            <div>
+                <h1>{{ application.name }}</h1>
+                <p class="text-muted">{{ application.description }}</p>
+                {% if application.notes %}
+                    <div class="card bg-light mb-3">
+                        <div class="card-body">
+                            <h6 class="card-subtitle mb-2 text-muted">Notes:</h6>
+                            <p class="card-text">{{ application.notes }}</p>
+                        </div>
+                    </div>
+                {% endif %}
+                {% if application.repo_url %}
+                    <a href="{{ application.repo_url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                        <i class="bi bi-github"></i> View Repository
+                    </a>
+                {% endif %}
+                {% if application.tags %}
+                    <div class="mt-2">
+                        {% for tag in application.tags %}
+                            <span class="badge bg-secondary me-1">{{ tag }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div>
+                <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" 
+                        data-bs-target="#editApplicationModal">
+                    <i class="bi bi-pencil"></i> Edit App
+                </button>
+                <form method="POST" action="{{ url_for('main.delete_application', app_id=application._id) }}" 
+                      class="d-inline">
+                    <button type="submit" class="btn btn-danger delete-confirm">
+                        <i class="bi bi-trash"></i> Delete App
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Progress Overview -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Progress Overview</h5>
+                <div class="row">
+                    <div class="col-md-3 text-center">
+                        <h3>{{ tasks|length }}</h3>
+                        <p class="text-muted">Total Tasks</p>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <h3>{{ tasks|selectattr('status', 'equalto', 'Completed')|list|length }}</h3>
+                        <p class="text-muted">Completed</p>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <h3>{{ tasks|selectattr('status', 'equalto', 'In Progress')|list|length }}</h3>
+                        <p class="text-muted">In Progress</p>
+                    </div>
+                    <div class="col-md-3 text-center">
+                        <h3>{{ tasks|selectattr('status', 'equalto', 'Not Started')|list|length }}</h3>
+                        <p class="text-muted">Not Started</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Task Form -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Add New Task</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('main.add_task', app_id=application._id) }}">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="title" name="title" 
+                                       placeholder="Task Title" required>
+                                <label for="title">Task Title *</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="status" name="status">
+                                    {% for status in task_statuses %}
+                                        <option value="{{ status }}">{{ status }}</option>
+                                    {% endfor %}
+                                </select>
+                                <label for="status">Status</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="git_branch" name="git_branch" 
+                                       placeholder="Git Branch">
+                                <label for="git_branch">Git Branch</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" id="notes" name="notes" 
+                                  placeholder="Notes" style="height: 80px"></textarea>
+                        <label for="notes">Notes</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-plus-circle"></i> Add Task
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Tasks List -->
+        <h3 class="mb-3">Tasks</h3>
+        {% if tasks %}
+            {% for task in tasks %}
+                <div class="card mb-3 task-item task-{{ task.status|lower|replace(' ', '-') }}">
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <h5 class="card-title mb-1">{{ task.title }}</h5>
+                                {% if task.notes %}
+                                    <p class="text-muted small mb-1">{{ task.notes }}</p>
+                                {% endif %}
+                                {% if task.git_branch %}
+                                    <span class="badge bg-info">
+                                        <i class="bi bi-git"></i> {{ task.git_branch }}
+                                    </span>
+                                {% endif %}
+                            </div>
+                            <div class="col-md-3">
+                                <form method="POST" action="{{ url_for('main.update_task', task_id=task._id) }}" 
+                                      class="d-inline">
+                                    <select name="status" class="form-select form-select-sm task-status-select" 
+                                            onchange="this.form.submit()">
+                                        {% for status in task_statuses %}
+                                            <option value="{{ status }}" 
+                                                    {% if task.status == status %}selected{% endif %}>
+                                                {{ status }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </form>
+                            </div>
+                            <div class="col-md-3 text-end">
+                                <button type="button" class="btn btn-sm btn-outline-secondary" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#editTaskModal{{ task._id }}">
+                                    <i class="bi bi-pencil"></i> Edit
+                                </button>
+                                <form method="POST" action="{{ url_for('main.delete_task', task_id=task._id) }}" 
+                                      class="d-inline">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger delete-confirm">
+                                        <i class="bi bi-trash"></i> Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Edit Task Modal -->
+                <div class="modal fade" id="editTaskModal{{ task._id }}" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form method="POST" action="{{ url_for('main.update_task', task_id=task._id) }}">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Edit Task</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" name="title" 
+                                               value="{{ task.title }}" required>
+                                        <label>Task Title</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <select class="form-select" name="status">
+                                            {% for status in task_statuses %}
+                                                <option value="{{ status }}" 
+                                                        {% if task.status == status %}selected{% endif %}>
+                                                    {{ status }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                        <label>Status</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control" name="git_branch" 
+                                               value="{{ task.git_branch }}">
+                                        <label>Git Branch</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <textarea class="form-control" name="notes" 
+                                                  style="height: 100px">{{ task.notes }}</textarea>
+                                        <label>Notes</label>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-info">
+                No tasks yet. Add your first task above!
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Edit Application Modal -->
+<div class="modal fade" id="editApplicationModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form method="POST" action="{{ url_for('main.update_application', app_id=application._id) }}">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Application</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" name="name" 
+                               value="{{ application.name }}" required>
+                        <label>Application Name</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" name="description" 
+                                  style="height: 100px">{{ application.description }}</textarea>
+                        <label>Description</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="url" class="form-control" name="repo_url" 
+                               value="{{ application.repo_url }}">
+                        <label>Git Repository URL</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" name="tags" 
+                               value="{% if application.tags %}{{ application.tags|join(', ') }}{% endif %}">
+                        <label>Tags (comma-separated)</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" name="notes" 
+                                  style="height: 100px">{{ application.notes if application.notes else '' }}</textarea>
+                        <label>Notes</label>
+                        <div class="form-text">e.g., ports used, configuration details, deployment information</div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
