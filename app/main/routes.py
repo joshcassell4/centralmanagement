@@ -184,6 +184,7 @@ def dashboard():
     total_apps = len(applications)
     total_tasks = sum(app['total_tasks'] for app in applications)
     completed_tasks = sum(app['completed_tasks'] for app in applications)
+    in_progress_tasks = sum(len(app.get('in_progress_tasks', [])) for app in applications)
     
     # Calculate overall completion percentage
     overall_completion = (
@@ -201,5 +202,6 @@ def dashboard():
                          total_apps=total_apps,
                          total_tasks=total_tasks,
                          completed_tasks=completed_tasks,
+                         in_progress_tasks=in_progress_tasks,
                          overall_completion=overall_completion,
                          most_active=most_active)

@@ -131,17 +131,13 @@
         <div class="row text-center">
             <div class="col-md-4">
                 <h4 class="text-secondary">
-                    {{ applications|sum(attribute='total_tasks') - 
-                       applications|sum(attribute='completed_tasks') - 
-                       (applications|map(attribute='tasks', default=[])|sum(attribute='length')|default(0) - 
-                        applications|sum(attribute='completed_tasks')) }}
+                    {{ total_tasks - completed_tasks - in_progress_tasks }}
                 </h4>
                 <p>Not Started</p>
             </div>
             <div class="col-md-4">
                 <h4 class="text-warning">
-                    {{ (applications|map(attribute='tasks', default=[])|sum(attribute='length')|default(0) - 
-                        applications|sum(attribute='completed_tasks')) }}
+                    {{ in_progress_tasks }}
                 </h4>
                 <p>In Progress</p>
             </div>
