@@ -18,6 +18,7 @@ def add_application():
         name = request.form.get('name', '').strip()
         description = request.form.get('description', '').strip()
         repo_url = request.form.get('repo_url', '').strip()
+        local_directory = request.form.get('local_directory', '').strip()
         tags = request.form.get('tags', '').strip()
         notes = request.form.get('notes', '').strip()
         
@@ -31,7 +32,7 @@ def add_application():
         
         # Create the application
         try:
-            app_id = Application.create(name, description, repo_url, tag_list, notes)
+            app_id = Application.create(name, description, repo_url, tag_list, notes, local_directory)
             flash(f'Application "{name}" added successfully!', 'success')
             return redirect(url_for('main.application_detail', app_id=app_id))
         except Exception as e:
@@ -157,6 +158,7 @@ def update_application(app_id):
             'name': request.form.get('name', application['name']).strip(),
             'description': request.form.get('description', application['description']).strip(),
             'repo_url': request.form.get('repo_url', application['repo_url']).strip(),
+            'local_directory': request.form.get('local_directory', application.get('local_directory', '')).strip(),
             'notes': request.form.get('notes', application.get('notes', '')).strip()
         }
         

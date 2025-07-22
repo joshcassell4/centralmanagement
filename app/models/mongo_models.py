@@ -8,12 +8,13 @@ class Application:
     collection = 'applications'
     
     @staticmethod
-    def create(name, description, repo_url, tags=None, notes=''):
+    def create(name, description, repo_url, tags=None, notes='', local_directory=''):
         """Create a new application"""
         app_doc = {
             'name': name,
             'description': description,
             'repo_url': repo_url,
+            'local_directory': local_directory,
             'tags': tags or [],
             'notes': notes,
             'created_at': datetime.utcnow(),

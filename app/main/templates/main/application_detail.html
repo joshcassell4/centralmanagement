@@ -22,6 +22,11 @@
                         <i class="bi bi-github"></i> View Repository
                     </a>
                 {% endif %}
+                {% if application.local_directory %}
+                    <p class="mt-2">
+                        <i class="bi bi-folder"></i> <strong>Local Directory:</strong> {{ application.local_directory }}
+                    </p>
+                {% endif %}
                 {% if application.tags %}
                     <div class="mt-2">
                         {% for tag in application.tags %}
@@ -241,6 +246,12 @@
                         <input type="url" class="form-control" name="repo_url" 
                                value="{{ application.repo_url }}">
                         <label>Git Repository URL</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" name="local_directory" 
+                               value="{{ application.local_directory if application.local_directory else '' }}">
+                        <label>Local Directory Path</label>
+                        <div class="form-text">e.g., /home/user/projects/myapp or C:\Projects\myapp</div>
                     </div>
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" name="tags" 

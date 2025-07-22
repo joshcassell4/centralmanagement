@@ -1,0 +1,58 @@
+[
+  {
+    "session_id": "a766bb88-d3f5-433e-88cc-fc993fc51a36",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\a766bb88-d3f5-433e-88cc-fc993fc51a36.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Add GitHub repo link and local directory display to the Applications index page",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "6"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "a766bb88-d3f5-433e-88cc-fc993fc51a36",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\a766bb88-d3f5-433e-88cc-fc993fc51a36.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\app\\main\\templates\\main\\index.html"
+    }
+  },
+  {
+    "session_id": "a766bb88-d3f5-433e-88cc-fc993fc51a36",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\a766bb88-d3f5-433e-88cc-fc993fc51a36.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\app\\main\\templates\\main\\index.html",
+      "old_string": "                        <div class=\"mb-3\">\n                            {% if app.tags %}\n                                {% for tag in app.tags %}\n                                    <span class=\"badge bg-secondary me-1\">{{ tag }}</span>\n                                {% endfor %}\n                            {% endif %}\n                        </div>\n                        \n                        <div class=\"d-flex justify-content-between align-items-center mb-2\">\n                            <span class=\"text-muted\">Progress</span>\n                            <span class=\"text-muted\">{{ app.completed_tasks }}/{{ app.total_tasks }} tasks</span>\n                        </div>",
+      "new_string": "                        <div class=\"mb-3\">\n                            {% if app.tags %}\n                                {% for tag in app.tags %}\n                                    <span class=\"badge bg-secondary me-1\">{{ tag }}</span>\n                                {% endfor %}\n                            {% endif %}\n                        </div>\n                        \n                        <!-- Repository and Local Directory Info -->\n                        <div class=\"mb-3\">\n                            {% if app.repo_url %}\n                                <div class=\"mb-2\">\n                                    <a href=\"{{ app.repo_url }}\" target=\"_blank\" class=\"btn btn-sm btn-outline-primary w-100\" \n                                       onclick=\"event.stopPropagation();\">\n                                        <i class=\"bi bi-github\"></i> View Repository\n                                    </a>\n                                </div>\n                            {% endif %}\n                            {% if app.local_directory %}\n                                <div class=\"small text-muted text-truncate\" title=\"{{ app.local_directory }}\">\n                                    <i class=\"bi bi-folder\"></i> <strong>Local:</strong> {{ app.local_directory }}\n                                </div>\n                            {% endif %}\n                        </div>\n                        \n                        <div class=\"d-flex justify-content-between align-items-center mb-2\">\n                            <span class=\"text-muted\">Progress</span>\n                            <span class=\"text-muted\">{{ app.completed_tasks }}/{{ app.total_tasks }} tasks</span>\n                        </div>"
+    }
+  },
+  {
+    "session_id": "a766bb88-d3f5-433e-88cc-fc993fc51a36",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\a766bb88-d3f5-433e-88cc-fc993fc51a36.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Add GitHub repo link and local directory display to the Applications index page",
+          "status": "completed",
+          "priority": "high",
+          "id": "6"
+        }
+      ]
+    }
+  }
+]

@@ -27,6 +27,23 @@
                             {% endif %}
                         </div>
                         
+                        <!-- Repository and Local Directory Info -->
+                        <div class="mb-3">
+                            {% if app.repo_url %}
+                                <div class="mb-2">
+                                    <a href="{{ app.repo_url }}" target="_blank" class="btn btn-sm btn-outline-primary w-100" 
+                                       onclick="event.stopPropagation();">
+                                        <i class="bi bi-github"></i> View Repository
+                                    </a>
+                                </div>
+                            {% endif %}
+                            {% if app.local_directory %}
+                                <div class="small text-muted text-truncate" title="{{ app.local_directory }}">
+                                    <i class="bi bi-folder"></i> <strong>Local:</strong> {{ app.local_directory }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <span class="text-muted">Progress</span>
                             <span class="text-muted">{{ app.completed_tasks }}/{{ app.total_tasks }} tasks</span>
