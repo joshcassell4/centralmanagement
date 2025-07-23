@@ -85,8 +85,8 @@ The application uses Flask's Blueprint pattern for modularity:
 Located in `app/models/mongo_models.py`:
 - `Application`: Manages app documents with CRUD operations
 - `Task`: Manages task documents linked to applications
-- `Pet`: Manages Mollydogs' pet profiles with medical tracking
-- `InventoryItem`: Manages Mollydogs' supply inventory with stock alerts
+- `Pet`: Manages Mollydogs pet profiles with medical tracking
+- `InventoryItem`: Manages Mollydogs supply inventory with stock alerts
 - Models handle their own MongoDB operations directly (no ORM)
 - Automatic timestamp management (created_at, updated_at)
 

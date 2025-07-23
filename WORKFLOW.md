@@ -11,7 +11,7 @@ This workflow outlines the systematic enhancement of the Central Application Man
 - MongoDB persistence
 - Flask Blueprint architecture
 - Bootstrap 5 UI
-- Mollydogs' pet and inventory system (bonus feature)
+- Mollydogs pet and inventory system (bonus feature)
 
 ### 🔲 Missing Core Features
 - Settings & Configuration page
