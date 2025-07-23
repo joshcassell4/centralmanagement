@@ -85,6 +85,8 @@ The application uses Flask's Blueprint pattern for modularity:
 Located in `app/models/mongo_models.py`:
 - `Application`: Manages app documents with CRUD operations
 - `Task`: Manages task documents linked to applications
+- `Pet`: Manages Mollydogs' pet profiles with medical tracking
+- `InventoryItem`: Manages Mollydogs' supply inventory with stock alerts
 - Models handle their own MongoDB operations directly (no ORM)
 - Automatic timestamp management (created_at, updated_at)
 
@@ -92,12 +94,16 @@ Located in `app/models/mongo_models.py`:
 All routes in `app/main/routes.py`:
 - Application routes: `/`, `/applications/<id>`, `/applications/add`
 - Task routes: `/applications/<id>/tasks/add`, `/tasks/<id>/update`
-- Dashboard route: `/dashboard`
+- Pet routes: `/pets`, `/pets/add`, `/pets/<id>`, etc.
+- Inventory routes: `/inventory`, `/inventory/add`, `/inventory/<id>`, etc.
+- Dashboard route: `/dashboard` (includes pet and inventory statistics)
 - Each route handles both GET and POST methods where applicable
 
 ### Template Structure
 - Base template: `app/templates/base.html` (Bootstrap 5)
 - Blueprint templates: `app/main/templates/main/`
+- Pet templates: `app/main/templates/main/pets/`
+- Inventory templates: `app/main/templates/main/inventory/`
 - Error pages: `app/templates/errors/`
 - All templates extend base.html for consistent layout
 
@@ -132,6 +138,17 @@ Currently, the project does not have test files or linting configurations set up
 Tasks progress through three states: "Not Started" → "In Progress" → "Completed"
 Defined in `Task.STATUSES` constant in mongo_models.py
 
+### Pet Medical Tracking
+- Checkup reminders triggered when last_checkup_date > 365 days
+- Medical conditions, allergies, and medications tracked
+- Vaccination dates stored as text field
+
+### Inventory Management
+- Low stock alerts when quantity <= low_stock_threshold
+- Expiration monitoring with date-based alerts
+- Pet associations link supplies to specific pets
+- Stock status automatically calculated on retrieval
+
 ### Application Statistics
 - Calculated dynamically in `Application.get_all()` method
 - Includes total_tasks, completed_tasks, and completion_percentage
@@ -149,6 +166,7 @@ Applications collection:
     'name': str,
     'description': str,
     'repo_url': str,
+    'local_directory': str,
     'tags': list,
     'notes': str,
     'created_at': datetime,
@@ -164,6 +182,52 @@ Tasks collection:
     'status': str,
     'notes': str,
     'git_branch': str,
+    'created_at': datetime,
+    'updated_at': datetime
+}
+```
+
+Pets collection:
+```python
+{
+    'name': str,
+    'species': str,
+    'breed': str,
+    'age': str,
+    'weight': str,
+    'color': str,
+    'gender': str,
+    'microchip_id': str,
+    'registration_number': str,
+    'photo_url': str,
+    'vet_info': str,
+    'medical_conditions': str,
+    'allergies': str,
+    'medications': str,
+    'last_checkup_date': datetime,
+    'feeding_schedule': str,
+    'special_notes': str,
+    'vaccination_dates': str,
+    'created_at': datetime,
+    'updated_at': datetime
+}
+```
+
+Inventory collection:
+```python
+{
+    'name': str,
+    'description': str,
+    'category': str,
+    'quantity': int,
+    'unit': str,
+    'low_stock_threshold': int,
+    'price_per_unit': float,
+    'supplier': str,
+    'purchase_date': datetime,
+    'expiration_date': datetime,
+    'for_pets': list,  # Array of pet IDs
+    'usage_notes': str,
     'created_at': datetime,
     'updated_at': datetime
 }

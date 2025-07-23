@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}Add Pet - Central App Management{% endblock %}
+{% block title %}Add Pet to Mollydogs' Family - Central App Management{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div class="card">
             <div class="card-header">
-                <h4><i class="bi bi-heart"></i> Add New Pet</h4>
+                <h4><i class="bi bi-heart"></i> Add New Pet to Mollydogs' Family</h4>
             </div>
             <div class="card-body">
                 <form method="POST">
@@ -140,7 +140,7 @@
 
                     <div class="d-flex justify-content-between">
                         <a href="{{ url_for('main.pets_index') }}" class="btn btn-secondary">
-                            <i class="bi bi-arrow-left"></i> Back to Pets
+                            <i class="bi bi-arrow-left"></i> Back to Mollydogs' Pets
                         </a>
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-check-circle"></i> Add Pet

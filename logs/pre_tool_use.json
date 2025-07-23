@@ -988,5 +988,711 @@
         }
       ]
     }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Update base.html navbar branding to include Mollydogs",
+          "status": "pending",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Update pet templates to include Mollydogs branding",
+          "status": "pending",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update inventory templates to include Mollydogs branding",
+          "status": "pending",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Update dashboard to include Mollydogs branding",
+          "status": "pending",
+          "priority": "medium",
+          "id": "4"
+        },
+        {
+          "content": "Update page titles and headers with Mollydogs branding",
+          "status": "pending",
+          "priority": "medium",
+          "id": "5"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Update base.html navbar branding to include Mollydogs",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Update pet templates to include Mollydogs branding",
+          "status": "pending",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update inventory templates to include Mollydogs branding",
+          "status": "pending",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Update dashboard to include Mollydogs branding",
+          "status": "pending",
+          "priority": "medium",
+          "id": "4"
+        },
+        {
+          "content": "Update page titles and headers with Mollydogs branding",
+          "status": "pending",
+          "priority": "medium",
+          "id": "5"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\app\\templates\\base.html",
+      "old_string": "                    <li class=\"nav-item\">\n                        <a class=\"nav-link\" href=\"{{ url_for('main.pets_index') }}\">\n                            <i class=\"bi bi-heart\"></i> Pets\n                        </a>\n                    </li>\n                    <li class=\"nav-item\">\n                        <a class=\"nav-link\" href=\"{{ url_for('main.inventory_index') }}\">\n                            <i class=\"bi bi-box\"></i> Inventory\n                        </a>\n                    </li>",
+      "new_string": "                    <li class=\"nav-item\">\n                        <a class=\"nav-link\" href=\"{{ url_for('main.pets_index') }}\">\n                            <i class=\"bi bi-heart\"></i> Mollydogs' Pets\n                        </a>\n                    </li>\n                    <li class=\"nav-item\">\n                        <a class=\"nav-link\" href=\"{{ url_for('main.inventory_index') }}\">\n                            <i class=\"bi bi-box\"></i> Mollydogs' Supplies\n                        </a>\n                    </li>"
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Update base.html navbar branding to include Mollydogs",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Update pet templates to include Mollydogs branding",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update inventory templates to include Mollydogs branding",
+          "status": "pending",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Update dashboard to include Mollydogs branding",
+          "status": "pending",
+          "priority": "medium",
+          "id": "4"
+        },
+        {
+          "content": "Update page titles and headers with Mollydogs branding",
+          "status": "pending",
+          "priority": "medium",
+          "id": "5"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "MultiEdit",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\app\\main\\templates\\main\\pets\\index.html",
+      "edits": [
+        {
+          "old_string": "{% block title %}Pets - Central App Management{% endblock %}",
+          "new_string": "{% block title %}Mollydogs' Pets - Central App Management{% endblock %}"
+        },
+        {
+          "old_string": "    <h1><i class=\"bi bi-heart\"></i> Pets</h1>",
+          "new_string": "    <h1><i class=\"bi bi-heart\"></i> Mollydogs' Pets</h1>"
+        },
+        {
+          "old_string": "        <h4 class=\"alert-heading\">No Pets Yet</h4>\n        <p>You haven't registered any pets yet. Start by adding your first furry, feathered, or scaled friend!</p>",
+          "new_string": "        <h4 class=\"alert-heading\">No Pets Yet</h4>\n        <p>Mollydogs hasn't registered any pets yet. Start by adding the first furry, feathered, or scaled friend!</p>"
+        },
+        {
+          "old_string": "            <i class=\"bi bi-plus-circle\"></i> Add Your First Pet",
+          "new_string": "            <i class=\"bi bi-plus-circle\"></i> Add Mollydogs' First Pet"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "MultiEdit",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\app\\main\\templates\\main\\pets\\add_pet.html",
+      "edits": [
+        {
+          "old_string": "{% block title %}Add Pet - Central App Management{% endblock %}",
+          "new_string": "{% block title %}Add Pet to Mollydogs' Family - Central App Management{% endblock %}"
+        },
+        {
+          "old_string": "                <h4><i class=\"bi bi-heart\"></i> Add New Pet</h4>",
+          "new_string": "                <h4><i class=\"bi bi-heart\"></i> Add New Pet to Mollydogs' Family</h4>"
+        },
+        {
+          "old_string": "                        <a href=\"{{ url_for('main.pets_index') }}\" class=\"btn btn-secondary\">\n                            <i class=\"bi bi-arrow-left\"></i> Back to Pets\n                        </a>",
+          "new_string": "                        <a href=\"{{ url_for('main.pets_index') }}\" class=\"btn btn-secondary\">\n                            <i class=\"bi bi-arrow-left\"></i> Back to Mollydogs' Pets\n                        </a>"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "MultiEdit",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\app\\main\\templates\\main\\pets\\pet_detail.html",
+      "edits": [
+        {
+          "old_string": "{% block title %}{{ pet.name }} - Pet Details{% endblock %}",
+          "new_string": "{% block title %}{{ pet.name }} - Mollydogs' Pet Details{% endblock %}"
+        },
+        {
+          "old_string": "        <a href=\"{{ url_for('main.pets_index') }}\" class=\"btn btn-secondary me-2\">\n            <i class=\"bi bi-arrow-left\"></i> Back to Pets\n        </a>",
+          "new_string": "        <a href=\"{{ url_for('main.pets_index') }}\" class=\"btn btn-secondary me-2\">\n            <i class=\"bi bi-arrow-left\"></i> Back to Mollydogs' Pets\n        </a>"
+        },
+        {
+          "old_string": "        <div class=\"card mb-4\">\n            <div class=\"card-header\">\n                <h5><i class=\"bi bi-house-heart\"></i> Care Information</h5>\n            </div>",
+          "new_string": "        <div class=\"card mb-4\">\n            <div class=\"card-header\">\n                <h5><i class=\"bi bi-house-heart\"></i> Mollydogs' Care Information</h5>\n            </div>"
+        },
+        {
+          "old_string": "        {% if pet_inventory %}\n        <div class=\"card mb-4\">\n            <div class=\"card-header\">\n                <h5><i class=\"bi bi-box\"></i> Associated Inventory</h5>\n            </div>",
+          "new_string": "        {% if pet_inventory %}\n        <div class=\"card mb-4\">\n            <div class=\"card-header\">\n                <h5><i class=\"bi bi-box\"></i> Mollydogs' Associated Supplies</h5>\n            </div>"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Update base.html navbar branding to include Mollydogs",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Update pet templates to include Mollydogs branding",
+          "status": "completed",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update inventory templates to include Mollydogs branding",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Update dashboard to include Mollydogs branding",
+          "status": "pending",
+          "priority": "medium",
+          "id": "4"
+        },
+        {
+          "content": "Update page titles and headers with Mollydogs branding",
+          "status": "pending",
+          "priority": "medium",
+          "id": "5"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\app\\main\\templates\\main\\inventory\\index.html",
+      "offset": 10,
+      "limit": 30
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\app\\main\\templates\\main\\inventory\\index.html",
+      "old_string": "    <a href=\"{{ url_for('main.add_inventory') }}\" class=\"btn btn-primary\">\n        <i class=\"bi bi-plus-circle\"></i> Add Inventory Item\n    </a>",
+      "new_string": "    <a href=\"{{ url_for('main.add_inventory') }}\" class=\"btn btn-primary\">\n        <i class=\"bi bi-plus-circle\"></i> Add Supply Item\n    </a>"
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "MultiEdit",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\app\\main\\templates\\main\\inventory\\add_inventory.html",
+      "edits": [
+        {
+          "old_string": "{% block title %}Add Inventory Item - Central App Management{% endblock %}",
+          "new_string": "{% block title %}Add Supply Item for Mollydogs - Central App Management{% endblock %}"
+        },
+        {
+          "old_string": "                <h4><i class=\"bi bi-box\"></i> Add Inventory Item</h4>",
+          "new_string": "                <h4><i class=\"bi bi-box\"></i> Add Supply Item for Mollydogs</h4>"
+        },
+        {
+          "old_string": "                        <a href=\"{{ url_for('main.inventory_index') }}\" class=\"btn btn-secondary\">\n                            <i class=\"bi bi-arrow-left\"></i> Back to Inventory\n                        </a>",
+          "new_string": "                        <a href=\"{{ url_for('main.inventory_index') }}\" class=\"btn btn-secondary\">\n                            <i class=\"bi bi-arrow-left\"></i> Back to Mollydogs' Supplies\n                        </a>"
+        },
+        {
+          "old_string": "                            <h5 class=\"text-primary border-bottom pb-2\">Pet Associations</h5>\n                            <p class=\"text-muted small\">Select which pets this item is for (optional)</p>",
+          "new_string": "                            <h5 class=\"text-primary border-bottom pb-2\">Pet Associations</h5>\n                            <p class=\"text-muted small\">Select which of Mollydogs' pets this item is for (optional)</p>"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "MultiEdit",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\app\\main\\templates\\main\\inventory\\inventory_detail.html",
+      "edits": [
+        {
+          "old_string": "{% block title %}{{ item.name }} - Inventory Details{% endblock %}",
+          "new_string": "{% block title %}{{ item.name }} - Mollydogs' Supply Details{% endblock %}"
+        },
+        {
+          "old_string": "        <a href=\"{{ url_for('main.inventory_index') }}\" class=\"btn btn-secondary me-2\">\n            <i class=\"bi bi-arrow-left\"></i> Back to Inventory\n        </a>",
+          "new_string": "        <a href=\"{{ url_for('main.inventory_index') }}\" class=\"btn btn-secondary me-2\">\n            <i class=\"bi bi-arrow-left\"></i> Back to Mollydogs' Supplies\n        </a>"
+        },
+        {
+          "old_string": "        {% if associated_pets %}\n        <div class=\"card mb-4\">\n            <div class=\"card-header\">\n                <h5><i class=\"bi bi-heart\"></i> Associated Pets</h5>\n            </div>",
+          "new_string": "        {% if associated_pets %}\n        <div class=\"card mb-4\">\n            <div class=\"card-header\">\n                <h5><i class=\"bi bi-heart\"></i> Mollydogs' Pets Using This Supply</h5>\n            </div>"
+        },
+        {
+          "old_string": "                    {% if all_pets %}\n                    <div class=\"mb-3\">\n                        <label class=\"form-label\">Associated Pets</label>",
+          "new_string": "                    {% if all_pets %}\n                    <div class=\"mb-3\">\n                        <label class=\"form-label\">Mollydogs' Pets Using This Supply</label>"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Update base.html navbar branding to include Mollydogs",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Update pet templates to include Mollydogs branding",
+          "status": "completed",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update inventory templates to include Mollydogs branding",
+          "status": "completed",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Update dashboard to include Mollydogs branding",
+          "status": "in_progress",
+          "priority": "medium",
+          "id": "4"
+        },
+        {
+          "content": "Update page titles and headers with Mollydogs branding",
+          "status": "pending",
+          "priority": "medium",
+          "id": "5"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "MultiEdit",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\app\\main\\templates\\main\\dashboard.html",
+      "edits": [
+        {
+          "old_string": "                <h5 class=\"mb-0\"><i class=\"bi bi-heart\"></i> Pet Information</h5>",
+          "new_string": "                <h5 class=\"mb-0\"><i class=\"bi bi-heart\"></i> Mollydogs' Pet Information</h5>"
+        },
+        {
+          "old_string": "                <h5 class=\"mb-0\"><i class=\"bi bi-box\"></i> Inventory Status</h5>",
+          "new_string": "                <h5 class=\"mb-0\"><i class=\"bi bi-box\"></i> Mollydogs' Supply Status</h5>"
+        },
+        {
+          "old_string": "                        <p class=\"mt-2\">No pets registered yet</p>\n                        <a href=\"{{ url_for('main.add_pet') }}\" class=\"btn btn-primary btn-sm\">\n                            <i class=\"bi bi-plus-circle\"></i> Add First Pet\n                        </a>",
+          "new_string": "                        <p class=\"mt-2\">No pets registered yet</p>\n                        <a href=\"{{ url_for('main.add_pet') }}\" class=\"btn btn-primary btn-sm\">\n                            <i class=\"bi bi-plus-circle\"></i> Add Mollydogs' First Pet\n                        </a>"
+        },
+        {
+          "old_string": "                        <p class=\"mt-2\">No inventory items yet</p>\n                        <a href=\"{{ url_for('main.add_inventory') }}\" class=\"btn btn-primary btn-sm\">\n                            <i class=\"bi bi-plus-circle\"></i> Add First Item\n                        </a>",
+          "new_string": "                        <p class=\"mt-2\">No supply items yet</p>\n                        <a href=\"{{ url_for('main.add_inventory') }}\" class=\"btn btn-primary btn-sm\">\n                            <i class=\"bi bi-plus-circle\"></i> Add Mollydogs' First Supply\n                        </a>"
+        },
+        {
+          "old_string": "                <a href=\"{{ url_for('main.add_pet') }}\" class=\"btn btn-danger w-100\">\n                    <i class=\"bi bi-heart-fill\"></i> Add Pet\n                </a>",
+          "new_string": "                <a href=\"{{ url_for('main.add_pet') }}\" class=\"btn btn-danger w-100\">\n                    <i class=\"bi bi-heart-fill\"></i> Add Mollydogs' Pet\n                </a>"
+        },
+        {
+          "old_string": "                <a href=\"{{ url_for('main.add_inventory') }}\" class=\"btn btn-secondary w-100\">\n                    <i class=\"bi bi-box-seam-fill\"></i> Add Inventory\n                </a>",
+          "new_string": "                <a href=\"{{ url_for('main.add_inventory') }}\" class=\"btn btn-secondary w-100\">\n                    <i class=\"bi bi-box-seam-fill\"></i> Add Mollydogs' Supply\n                </a>"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Update base.html navbar branding to include Mollydogs",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Update pet templates to include Mollydogs branding",
+          "status": "completed",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update inventory templates to include Mollydogs branding",
+          "status": "completed",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Update dashboard to include Mollydogs branding",
+          "status": "completed",
+          "priority": "medium",
+          "id": "4"
+        },
+        {
+          "content": "Update page titles and headers with Mollydogs branding",
+          "status": "in_progress",
+          "priority": "medium",
+          "id": "5"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\app\\templates\\base.html",
+      "old_string": "    <footer class=\"footer mt-auto py-3 bg-light\">\n        <div class=\"container text-center\">\n            <span class=\"text-muted\">Central Application Management Dashboard &copy; 2024</span>\n        </div>\n    </footer>",
+      "new_string": "    <footer class=\"footer mt-auto py-3 bg-light\">\n        <div class=\"container text-center\">\n            <span class=\"text-muted\">Mollydogs' Central Management Dashboard &copy; 2024</span>\n        </div>\n    </footer>"
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Update base.html navbar branding to include Mollydogs",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Update pet templates to include Mollydogs branding",
+          "status": "completed",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update inventory templates to include Mollydogs branding",
+          "status": "completed",
+          "priority": "high",
+          "id": "3"
+        },
+        {
+          "content": "Update dashboard to include Mollydogs branding",
+          "status": "completed",
+          "priority": "medium",
+          "id": "4"
+        },
+        {
+          "content": "Update page titles and headers with Mollydogs branding",
+          "status": "completed",
+          "priority": "medium",
+          "id": "5"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\README.md"
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\PRD.md"
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\requirements.txt"
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\run.py"
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\CLAUDE.md"
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\CLAUDE.md",
+      "old_string": "### Model Layer\nLocated in `app/models/mongo_models.py`:\n- `Application`: Manages app documents with CRUD operations\n- `Task`: Manages task documents linked to applications\n- Models handle their own MongoDB operations directly (no ORM)\n- Automatic timestamp management (created_at, updated_at)",
+      "new_string": "### Model Layer\nLocated in `app/models/mongo_models.py`:\n- `Application`: Manages app documents with CRUD operations\n- `Task`: Manages task documents linked to applications\n- `Pet`: Manages Mollydogs' pet profiles with medical tracking\n- `InventoryItem`: Manages Mollydogs' supply inventory with stock alerts\n- Models handle their own MongoDB operations directly (no ORM)\n- Automatic timestamp management (created_at, updated_at)"
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\CLAUDE.md",
+      "old_string": "### Route Organization\nAll routes in `app/main/routes.py`:\n- Application routes: `/`, `/applications/<id>`, `/applications/add`\n- Task routes: `/applications/<id>/tasks/add`, `/tasks/<id>/update`\n- Dashboard route: `/dashboard`\n- Each route handles both GET and POST methods where applicable",
+      "new_string": "### Route Organization\nAll routes in `app/main/routes.py`:\n- Application routes: `/`, `/applications/<id>`, `/applications/add`\n- Task routes: `/applications/<id>/tasks/add`, `/tasks/<id>/update`\n- Pet routes: `/pets`, `/pets/add`, `/pets/<id>`, etc.\n- Inventory routes: `/inventory`, `/inventory/add`, `/inventory/<id>`, etc.\n- Dashboard route: `/dashboard` (includes pet and inventory statistics)\n- Each route handles both GET and POST methods where applicable"
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\CLAUDE.md",
+      "old_string": "### Template Structure\n- Base template: `app/templates/base.html` (Bootstrap 5)\n- Blueprint templates: `app/main/templates/main/`\n- Error pages: `app/templates/errors/`\n- All templates extend base.html for consistent layout",
+      "new_string": "### Template Structure\n- Base template: `app/templates/base.html` (Bootstrap 5)\n- Blueprint templates: `app/main/templates/main/`\n- Pet templates: `app/main/templates/main/pets/`\n- Inventory templates: `app/main/templates/main/inventory/`\n- Error pages: `app/templates/errors/`\n- All templates extend base.html for consistent layout"
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\CLAUDE.md",
+      "old_string": "## Key Implementation Details\n\n### Task Status Flow\nTasks progress through three states: \"Not Started\" \u00e2\u2020\u2019 \"In Progress\" \u00e2\u2020\u2019 \"Completed\"\nDefined in `Task.STATUSES` constant in mongo_models.py\n\n### Application Statistics\n- Calculated dynamically in `Application.get_all()` method\n- Includes total_tasks, completed_tasks, and completion_percentage\n- Statistics not stored in database, computed on retrieval\n\n### Form Validation\n- Server-side validation in route handlers\n- Required fields checked before database operations\n- Flash messages for user feedback (success/danger categories)\n\n### MongoDB Document Structure\nApplications collection:\n```python\n{\n    'name': str,\n    'description': str,\n    'repo_url': str,\n    'tags': list,\n    'notes': str,\n    'created_at': datetime,\n    'updated_at': datetime\n}\n```\n\nTasks collection:\n```python\n{\n    'app_id': str,\n    'title': str,\n    'status': str,\n    'notes': str,\n    'git_branch': str,\n    'created_at': datetime,\n    'updated_at': datetime\n}\n```",
+      "new_string": "## Key Implementation Details\n\n### Task Status Flow\nTasks progress through three states: \"Not Started\" \u00e2\u2020\u2019 \"In Progress\" \u00e2\u2020\u2019 \"Completed\"\nDefined in `Task.STATUSES` constant in mongo_models.py\n\n### Pet Medical Tracking\n- Checkup reminders triggered when last_checkup_date > 365 days\n- Medical conditions, allergies, and medications tracked\n- Vaccination dates stored as text field\n\n### Inventory Management\n- Low stock alerts when quantity <= low_stock_threshold\n- Expiration monitoring with date-based alerts\n- Pet associations link supplies to specific pets\n- Stock status automatically calculated on retrieval\n\n### Application Statistics\n- Calculated dynamically in `Application.get_all()` method\n- Includes total_tasks, completed_tasks, and completion_percentage\n- Statistics not stored in database, computed on retrieval\n\n### Form Validation\n- Server-side validation in route handlers\n- Required fields checked before database operations\n- Flash messages for user feedback (success/danger categories)\n\n### MongoDB Document Structure\nApplications collection:\n```python\n{\n    'name': str,\n    'description': str,\n    'repo_url': str,\n    'local_directory': str,\n    'tags': list,\n    'notes': str,\n    'created_at': datetime,\n    'updated_at': datetime\n}\n```\n\nTasks collection:\n```python\n{\n    'app_id': str,\n    'title': str,\n    'status': str,\n    'notes': str,\n    'git_branch': str,\n    'created_at': datetime,\n    'updated_at': datetime\n}\n```\n\nPets collection:\n```python\n{\n    'name': str,\n    'species': str,\n    'breed': str,\n    'age': str,\n    'weight': str,\n    'color': str,\n    'gender': str,\n    'microchip_id': str,\n    'registration_number': str,\n    'photo_url': str,\n    'vet_info': str,\n    'medical_conditions': str,\n    'allergies': str,\n    'medications': str,\n    'last_checkup_date': datetime,\n    'feeding_schedule': str,\n    'special_notes': str,\n    'vaccination_dates': str,\n    'created_at': datetime,\n    'updated_at': datetime\n}\n```\n\nInventory collection:\n```python\n{\n    'name': str,\n    'description': str,\n    'category': str,\n    'quantity': int,\n    'unit': str,\n    'low_stock_threshold': int,\n    'price_per_unit': float,\n    'supplier': str,\n    'purchase_date': datetime,\n    'expiration_date': datetime,\n    'for_pets': list,  # Array of pet IDs\n    'usage_notes': str,\n    'created_at': datetime,\n    'updated_at': datetime\n}\n```"
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\PRD.md"
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "mcp__sequential-thinking__sequentialthinking",
+    "tool_input": {
+      "thought": "I need to analyze the PRD and current implementation to generate a comprehensive workflow. Let me consider:\n\n1. What's already implemented:\n- Core application and task management\n- Mollydogs' pet and inventory system (additional feature)\n- Docker setup and MongoDB integration\n- Flask Blueprint architecture\n\n2. What's missing or could be enhanced from the PRD:\n- Settings & Configuration page\n- Tag filtering/sorting on dashboard\n- Git branch auto-detection (stretch goal)\n- REST API (stretch goal)\n- User authentication (stretch goal)\n- Export/import functionality (stretch goal)\n- Notifications (stretch goal)\n\n3. The workflow should focus on:\n- Completing missing core features\n- Implementing high-value stretch goals\n- Maintaining the modular architecture\n- Following established patterns\n\nI'll generate a systematic workflow that builds on the existing implementation.",
+      "nextThoughtNeeded": true,
+      "thoughtNumber": 1,
+      "totalThoughts": 3
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "mcp__sequential-thinking__sequentialthinking",
+    "tool_input": {
+      "thought": "Now I'll structure the workflow with phases, considering:\n\nPhase 1 - Core Feature Completion:\n- Settings & Configuration page\n- Tag filtering/sorting functionality\n- Enhanced dashboard features\n\nPhase 2 - API Development:\n- REST API blueprint\n- API endpoints for CRUD operations\n- API documentation\n\nPhase 3 - Authentication & Security:\n- User authentication blueprint\n- Session management\n- Role-based access (future)\n\nPhase 4 - Advanced Features:\n- Git integration\n- Export/import functionality\n- Notification system\n- Drag-and-drop prioritization\n\nI'll create a detailed workflow with time estimates, dependencies, and implementation steps.",
+      "nextThoughtNeeded": true,
+      "thoughtNumber": 2,
+      "totalThoughts": 3
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "mcp__sequential-thinking__sequentialthinking",
+    "tool_input": {
+      "thought": "I'll also identify:\n\n1. Parallel work streams:\n- Frontend enhancements can proceed alongside API development\n- Documentation can be created in parallel\n- Testing infrastructure can be built concurrently\n\n2. Dependencies:\n- Authentication must come before role-based features\n- API should be completed before external integrations\n- Core features should be solid before advanced features\n\n3. Risk considerations:\n- Breaking changes to existing functionality\n- Data migration needs\n- Security vulnerabilities\n- Performance at scale\n\nLet me create a comprehensive workflow document now.",
+      "nextThoughtNeeded": false,
+      "thoughtNumber": 3,
+      "totalThoughts": 3
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Create Settings model in app/models/mongo_models.py",
+          "status": "pending",
+          "priority": "high",
+          "id": "workflow-1"
+        },
+        {
+          "content": "Implement Settings routes in app/main/routes.py",
+          "status": "pending",
+          "priority": "high",
+          "id": "workflow-2"
+        },
+        {
+          "content": "Design and create Settings UI template",
+          "status": "pending",
+          "priority": "high",
+          "id": "workflow-3"
+        },
+        {
+          "content": "Add tag filtering methods to Application model",
+          "status": "pending",
+          "priority": "medium",
+          "id": "workflow-4"
+        },
+        {
+          "content": "Enhance dashboard with tag filters and sorting",
+          "status": "pending",
+          "priority": "medium",
+          "id": "workflow-5"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "88a24d6e-d2ea-40b0-aacc-a5c2b85542de",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\88a24d6e-d2ea-40b0-aacc-a5c2b85542de.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Write",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\WORKFLOW.md",
+      "content": "# Central Application Management Dashboard - Implementation Workflow\n\n## Executive Summary\nThis workflow outlines the systematic enhancement of the Central Application Management Dashboard, building upon the existing Flask/MongoDB implementation to deliver remaining PRD features and high-value stretch goals.\n\n## Current State Analysis\n### \u00e2\u0153\u2026 Implemented Features\n- Core application and task management\n- Dashboard with progress visualization\n- Docker containerization (port 8026)\n- MongoDB persistence\n- Flask Blueprint architecture\n- Bootstrap 5 UI\n- Mollydogs' pet and inventory system (bonus feature)\n\n### \u00f0\u0178\u201d\u00b2 Missing Core Features\n- Settings & Configuration page\n- Tag-based filtering and sorting\n- Advanced dashboard sorting options\n\n### \u00f0\u0178\u017d\u00af High-Value Stretch Goals\n- REST API for automation\n- Git branch auto-detection\n- User authentication\n- Export/import functionality\n\n---\n\n## Phase 1: Core Feature Completion (Week 1-2)\n\n### 1.1 Settings & Configuration Page\n**Estimated Time**: 8 hours  \n**Persona**: Backend Developer with Frontend skills  \n**Dependencies**: Existing Flask blueprint structure\n\n#### Implementation Steps:\n1. **Create Settings Model** (2 hours)\n   ```python\n   # app/models/mongo_models.py\n   class Settings:\n       - port_number\n       - dashboard_title\n       - default_task_statuses\n       - theme_preferences\n       - notification_settings (future-ready)\n   ```\n\n2. **Add Settings Routes** (2 hours)\n   ```python\n   # app/main/routes.py\n   - GET/POST /settings\n   - GET /settings/api (JSON response)\n   ```\n\n3. **Create Settings UI** (3 hours)\n   - Settings form template\n   - Environment variable management\n   - Configuration persistence\n\n4. **Testing & Integration** (1 hour)\n   - Verify settings persistence\n   - Test configuration changes\n\n#### Acceptance Criteria:\n- [ ] Settings page accessible from navigation\n- [ ] Configuration changes persist across sessions\n- [ ] Port configuration guidance displayed\n- [ ] Future-ready structure for additional settings\n\n### 1.2 Tag Filtering & Sorting Enhancement\n**Estimated Time**: 12 hours  \n**Persona**: Full-stack Developer  \n**Dependencies**: Existing tag system in Application model\n\n#### Implementation Steps:\n1. **Backend Tag Aggregation** (3 hours)\n   ```python\n   # Add to Application model\n   @staticmethod\n   def get_all_tags():\n       \"\"\"Get unique tags across all applications\"\"\"\n   \n   @staticmethod\n   def get_by_tags(tag_list):\n       \"\"\"Filter applications by tags\"\"\"\n   ```\n\n2. **Dashboard Enhancement** (4 hours)\n   - Add tag filter UI components\n   - Implement sort options (completion %, activity, name)\n   - AJAX-based filtering without page reload\n\n3. **Application List Filtering** (3 hours)\n   - Tag cloud display\n   - Multi-tag selection\n   - Clear filters option\n\n4. **URL State Management** (2 hours)\n   - Persist filter/sort state in URL parameters\n   - Shareable filtered views\n\n#### Acceptance Criteria:\n- [ ] Tag filter UI on dashboard and application list\n- [ ] Multiple tags can be selected simultaneously\n- [ ] Sort by: completion %, last updated, name, task count\n- [ ] Filter state persists in URL\n\n---\n\n## Phase 2: REST API Development (Week 3-4)\n\n### 2.1 API Blueprint Setup\n**Estimated Time**: 16 hours  \n**Persona**: Backend Developer  \n**Dependencies**: Core features complete  \n**MCP Integration**: Use Context7 for Flask-RESTX patterns\n\n#### Implementation Steps:\n1. **Create API Blueprint** (4 hours)\n   ```python\n   # app/api/__init__.py\n   # app/api/routes.py\n   # app/api/models.py (Marshmallow schemas)\n   ```\n\n2. **Implement Core Endpoints** (8 hours)\n   ```\n   Applications:\n   - GET    /api/v1/applications\n   - POST   /api/v1/applications\n   - GET    /api/v1/applications/{id}\n   - PUT    /api/v1/applications/{id}\n   - DELETE /api/v1/applications/{id}\n   \n   Tasks:\n   - GET    /api/v1/applications/{id}/tasks\n   - POST   /api/v1/applications/{id}/tasks\n   - PUT    /api/v1/tasks/{id}\n   - DELETE /api/v1/tasks/{id}\n   ```\n\n3. **Add API Documentation** (2 hours)\n   - Swagger/OpenAPI specification\n   - Interactive API documentation page\n\n4. **API Testing Suite** (2 hours)\n   - Pytest fixtures for API testing\n   - Response validation tests\n\n#### Acceptance Criteria:\n- [ ] All CRUD operations available via API\n- [ ] JSON request/response format\n- [ ] Proper HTTP status codes\n- [ ] API documentation accessible at /api/docs\n- [ ] Basic rate limiting implemented\n\n### 2.2 API Authentication\n**Estimated Time**: 8 hours  \n**Persona**: Security-focused Backend Developer  \n**Dependencies**: API endpoints complete\n\n#### Implementation Steps:\n1. **API Key Management** (4 hours)\n   - API key generation in settings\n   - Key storage and validation\n   - Request authentication middleware\n\n2. **Security Hardening** (4 hours)\n   - CORS configuration\n   - Input validation\n   - SQL injection prevention (though using MongoDB)\n   - Rate limiting per API key\n\n---\n\n## Phase 3: Authentication System (Week 5-6)\n\n### 3.1 User Authentication Blueprint\n**Estimated Time**: 20 hours  \n**Persona**: Security Engineer + Backend Developer  \n**Dependencies**: API complete  \n**MCP Integration**: Context7 for Flask-Login patterns\n\n#### Implementation Steps:\n1. **Auth Blueprint Structure** (4 hours)\n   ```python\n   # app/auth/__init__.py\n   # app/auth/routes.py\n   # app/auth/forms.py\n   # app/models/user.py\n   ```\n\n2. **User Model & Management** (4 hours)\n   - User document structure\n   - Password hashing (bcrypt)\n   - Session management\n\n3. **Authentication Routes** (6 hours)\n   - Login page and logic\n   - Logout functionality\n   - Registration (if multi-user)\n   - Password reset flow\n\n4. **Route Protection** (4 hours)\n   - Login required decorator\n   - Protect all existing routes\n   - Remember me functionality\n\n5. **UI Integration** (2 hours)\n   - Login/logout in navigation\n   - User indicator\n   - Session timeout handling\n\n#### Acceptance Criteria:\n- [ ] Secure login/logout functionality\n- [ ] All routes require authentication\n- [ ] Password properly hashed\n- [ ] Session management implemented\n- [ ] \"Remember me\" option available\n\n---\n\n## Phase 4: Advanced Features (Week 7-8)\n\n### 4.1 Git Integration\n**Estimated Time**: 16 hours  \n**Persona**: DevOps Engineer  \n**Dependencies**: Core system stable  \n**Risk**: External dependency on git repositories\n\n#### Implementation Steps:\n1. **GitPython Integration** (4 hours)\n   - Add gitpython to requirements\n   - Git utilities module\n   - Repository validation\n\n2. **Branch Detection** (6 hours)\n   - Auto-detect branches from repo URL\n   - Branch list caching\n   - Refresh mechanism\n\n3. **UI Enhancement** (4 hours)\n   - Branch dropdown in task forms\n   - Current branch indicator\n   - Branch status (active/merged)\n\n4. **Error Handling** (2 hours)\n   - Invalid repo handling\n   - Network timeout management\n   - Graceful degradation\n\n### 4.2 Export/Import Functionality\n**Estimated Time**: 12 hours  \n**Persona**: Full-stack Developer  \n**Dependencies**: Stable data model\n\n#### Implementation Steps:\n1. **Export Implementation** (6 hours)\n   - JSON export format\n   - CSV export for reports\n   - Include all related data\n   - Download endpoint\n\n2. **Import Implementation** (6 hours)\n   - File upload interface\n   - Data validation\n   - Conflict resolution\n   - Import preview\n\n---\n\n## Parallel Work Streams\n\n### Stream A: Frontend Enhancements (Throughout)\n- **Drag-and-drop task prioritization** (Week 4)\n- **Dark mode theme** (Week 5)\n- **Keyboard shortcuts** (Week 6)\n- **Mobile responsiveness improvements** (Week 7)\n\n### Stream B: Testing Infrastructure (Week 2-8)\n- **Unit test setup with pytest** (Week 2)\n- **Integration tests for routes** (Week 3)\n- **API test suite** (Week 4)\n- **E2E tests with Selenium** (Week 6)\n\n### Stream C: Documentation (Week 4-8)\n- **API documentation** (Week 4)\n- **User guide** (Week 6)\n- **Developer documentation** (Week 7)\n- **Deployment guide** (Week 8)\n\n---\n\n## Risk Assessment & Mitigation\n\n### Technical Risks\n1. **Database Migration Complexity**\n   - Risk: Schema changes break existing data\n   - Mitigation: Implement migration scripts, backup before changes\n\n2. **Performance at Scale**\n   - Risk: Dashboard slow with many applications\n   - Mitigation: Implement pagination, optimize queries, add caching\n\n3. **Security Vulnerabilities**\n   - Risk: Authentication bypass, data exposure\n   - Mitigation: Security audit, penetration testing, OWASP compliance\n\n### Timeline Risks\n1. **Feature Creep**\n   - Risk: Scope expansion delays core features\n   - Mitigation: Strict phase gates, MVP focus\n\n2. **Integration Complexity**\n   - Risk: Git integration more complex than estimated\n   - Mitigation: Time buffer, fallback to manual branch entry\n\n---\n\n## Success Metrics\n\n### Phase Completion Criteria\n- **Phase 1**: 100% core features implemented, tested, and deployed\n- **Phase 2**: API covers 100% of UI functionality\n- **Phase 3**: Authentication secure and user-tested\n- **Phase 4**: 2+ stretch goals successfully integrated\n\n### Performance Targets\n- Page load time: <500ms\n- API response time: <200ms\n- Database query time: <100ms\n- Docker container startup: <30s\n\n### Quality Metrics\n- Test coverage: >80%\n- Zero critical security vulnerabilities\n- Mobile responsive on all pages\n- Browser compatibility: Chrome, Firefox, Safari, Edge\n\n---\n\n## Recommended Implementation Order\n\n1. **Start with Settings Page** (Phase 1.1)\n   - Low complexity, high visibility\n   - Establishes patterns for future pages\n   - No breaking changes\n\n2. **Add Tag Filtering** (Phase 1.2)\n   - Enhances existing functionality\n   - Improves user experience immediately\n   - Foundation for advanced filtering\n\n3. **Build API Layer** (Phase 2)\n   - Enables automation and integrations\n   - Parallel testing possible\n   - Opens possibilities for mobile apps\n\n4. **Implement Authentication** (Phase 3)\n   - Critical for multi-user scenarios\n   - Security best practice\n   - Enables user-specific features\n\n5. **Add Advanced Features** (Phase 4)\n   - Git integration for developer workflow\n   - Export/import for data portability\n   - UI enhancements for productivity\n\n---\n\n## Getting Started\n\n### Prerequisites\n- Docker and Docker Compose installed\n- Python 3.9+ for local development\n- MongoDB 7.0+\n- Git for version control\n\n### Development Setup\n1. Clone the repository\n2. Copy `.env.example` to `.env` and configure\n3. Run `docker-compose up -d` to start services\n4. Access application at http://localhost:8026\n\n### First Tasks\n1. Review existing codebase structure\n2. Set up development environment\n3. Create feature branch for Phase 1.1\n4. Begin with Settings model implementation\n\n---\n\nThis workflow provides a systematic approach to completing the Central Application Management Dashboard while maintaining code quality, security, and extensibility. The modular phase structure allows for adjustments based on priorities and resource availability."
+    }
   }
 ]
