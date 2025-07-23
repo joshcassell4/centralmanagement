@@ -22,6 +22,27 @@ docker-compose down
 docker-compose down -v
 ```
 
+### Makefile Commands (Alternative)
+```bash
+# Start development environment with build
+make dev
+
+# Build containers
+make build
+
+# Run containers in background
+make up
+
+# Stop containers
+make down
+
+# Follow logs
+make logs
+
+# Restart everything
+make restart
+```
+
 ### Local Development
 ```bash
 # Activate virtual environment
@@ -97,6 +118,13 @@ MONGODB_URI=mongodb://localhost:27018/app_management
 ### Docker Network
 - Internal service communication uses service names (e.g., `mongodb:27017`)
 - Dashboard service connects to MongoDB via `mongodb://mongodb:27017/app_management`
+
+## Testing and Linting
+
+Currently, the project does not have test files or linting configurations set up. When implementing tests or linting:
+- Consider adding pytest for testing Flask applications
+- Use flake8 or ruff for Python linting
+- Add test files in `tests/` directory following Flask testing patterns
 
 ## Key Implementation Details
 

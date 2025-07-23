@@ -1,0 +1,329 @@
+{% extends "base.html" %}
+
+{% block title %}{{ pet.name }} - Pet Details{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1><i class="bi bi-heart"></i> {{ pet.name }}</h1>
+        <p class="text-muted">{{ pet.species }}{% if pet.breed %} - {{ pet.breed }}{% endif %}</p>
+    </div>
+    <div>
+        <a href="{{ url_for('main.pets_index') }}" class="btn btn-secondary me-2">
+            <i class="bi bi-arrow-left"></i> Back to Pets
+        </a>
+        <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#editPetModal">
+            <i class="bi bi-pencil"></i> Edit
+        </button>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deletePetModal">
+            <i class="bi bi-trash"></i> Delete
+        </button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <!-- Pet Photo -->
+        {% if pet.photo_url %}
+            <div class="card mb-4">
+                <div class="card-body text-center">
+                    <img src="{{ pet.photo_url }}" alt="{{ pet.name }}" class="img-fluid rounded" style="max-width: 100%;">
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- Basic Info Card -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5><i class="bi bi-info-circle"></i> Basic Information</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Name:</strong> {{ pet.name }}</p>
+                <p><strong>Species:</strong> {{ pet.species }}</p>
+                {% if pet.breed %}<p><strong>Breed:</strong> {{ pet.breed }}</p>{% endif %}
+                <p><strong>Gender:</strong> {{ pet.gender }}</p>
+                {% if pet.age %}<p><strong>Age:</strong> {{ pet.age }}</p>{% endif %}
+                {% if pet.weight %}<p><strong>Weight:</strong> {{ pet.weight }}</p>{% endif %}
+                {% if pet.color %}<p><strong>Color:</strong> {{ pet.color }}</p>{% endif %}
+                <hr>
+                <small class="text-muted">
+                    <p><strong>Added:</strong> {{ pet.created_at.strftime('%Y-%m-%d %H:%M') if pet.created_at else 'Unknown' }}</p>
+                    <p><strong>Updated:</strong> {{ pet.updated_at.strftime('%Y-%m-%d %H:%M') if pet.updated_at else 'Unknown' }}</p>
+                </small>
+            </div>
+        </div>
+
+        <!-- Identification Card -->
+        {% if pet.microchip_id or pet.registration_number %}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5><i class="bi bi-credit-card"></i> Identification</h5>
+            </div>
+            <div class="card-body">
+                {% if pet.microchip_id %}<p><strong>Microchip ID:</strong> {{ pet.microchip_id }}</p>{% endif %}
+                {% if pet.registration_number %}<p><strong>Registration:</strong> {{ pet.registration_number }}</p>{% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="col-md-8">
+        <!-- Medical Information -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5><i class="bi bi-heart-pulse"></i> Medical Information</h5>
+            </div>
+            <div class="card-body">
+                {% if pet.vet_info %}
+                    <div class="mb-3">
+                        <strong>Veterinarian:</strong>
+                        <p class="mt-1">{{ pet.vet_info }}</p>
+                    </div>
+                {% endif %}
+                
+                {% if pet.last_checkup_date %}
+                    <p><strong>Last Checkup:</strong> {{ pet.last_checkup_date.strftime('%Y-%m-%d') }}</p>
+                {% endif %}
+                
+                {% if pet.medical_conditions %}
+                    <div class="mb-3">
+                        <strong>Medical Conditions:</strong>
+                        <div class="alert alert-warning mt-1">{{ pet.medical_conditions }}</div>
+                    </div>
+                {% endif %}
+                
+                {% if pet.allergies %}
+                    <div class="mb-3">
+                        <strong>Allergies:</strong>
+                        <div class="alert alert-danger mt-1">{{ pet.allergies }}</div>
+                    </div>
+                {% endif %}
+                
+                {% if pet.medications %}
+                    <div class="mb-3">
+                        <strong>Current Medications:</strong>
+                        <p class="mt-1">{{ pet.medications }}</p>
+                    </div>
+                {% endif %}
+                
+                {% if pet.vaccination_dates %}
+                    <div class="mb-3">
+                        <strong>Vaccination History:</strong>
+                        <p class="mt-1">{{ pet.vaccination_dates }}</p>
+                    </div>
+                {% endif %}
+                
+                {% if not (pet.vet_info or pet.last_checkup_date or pet.medical_conditions or pet.allergies or pet.medications or pet.vaccination_dates) %}
+                    <p class="text-muted">No medical information recorded.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Care Information -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5><i class="bi bi-house-heart"></i> Care Information</h5>
+            </div>
+            <div class="card-body">
+                {% if pet.feeding_schedule %}
+                    <div class="mb-3">
+                        <strong>Feeding Schedule:</strong>
+                        <p class="mt-1">{{ pet.feeding_schedule }}</p>
+                    </div>
+                {% endif %}
+                
+                {% if pet.special_notes %}
+                    <div class="mb-3">
+                        <strong>Special Notes:</strong>
+                        <p class="mt-1">{{ pet.special_notes }}</p>
+                    </div>
+                {% endif %}
+                
+                {% if not (pet.feeding_schedule or pet.special_notes) %}
+                    <p class="text-muted">No care information recorded.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Associated Inventory -->
+        {% if pet_inventory %}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5><i class="bi bi-box"></i> Associated Inventory</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for item in pet_inventory %}
+                        <div class="col-md-6 mb-3">
+                            <div class="card border-secondary">
+                                <div class="card-body">
+                                    <h6>{{ item.name }}</h6>
+                                    <p class="text-muted small">{{ item.category }}</p>
+                                    <div class="d-flex justify-content-between">
+                                        <span class="text-muted">Quantity: {{ item.quantity }} {{ item.unit }}</span>
+                                        <span class="badge {% if item.is_low_stock %}bg-danger{% else %}bg-success{% endif %}">
+                                            {{ item.stock_status }}
+                                        </span>
+                                    </div>
+                                    <a href="{{ url_for('main.inventory_detail', item_id=item._id) }}" class="btn btn-sm btn-outline-primary mt-2">
+                                        View Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Edit Pet Modal -->
+<div class="modal fade" id="editPetModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form method="POST" action="{{ url_for('main.update_pet', pet_id=pet._id) }}">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit {{ pet.name }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Basic Info -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Name *</label>
+                            <input type="text" class="form-control" name="name" value="{{ pet.name }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Species *</label>
+                            <select class="form-select" name="species" required>
+                                {% for species in species_options %}
+                                    <option value="{{ species }}" {% if species == pet.species %}selected{% endif %}>{{ species }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Breed</label>
+                            <input type="text" class="form-control" name="breed" value="{{ pet.breed or '' }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Gender</label>
+                            <select class="form-select" name="gender">
+                                {% for gender in gender_options %}
+                                    <option value="{{ gender }}" {% if gender == pet.gender %}selected{% endif %}>{{ gender }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Age</label>
+                            <input type="text" class="form-control" name="age" value="{{ pet.age or '' }}">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Weight</label>
+                            <input type="text" class="form-control" name="weight" value="{{ pet.weight or '' }}">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Color</label>
+                            <input type="text" class="form-control" name="color" value="{{ pet.color or '' }}">
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Microchip ID</label>
+                            <input type="text" class="form-control" name="microchip_id" value="{{ pet.microchip_id or '' }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Registration Number</label>
+                            <input type="text" class="form-control" name="registration_number" value="{{ pet.registration_number or '' }}">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Photo URL</label>
+                        <input type="url" class="form-control" name="photo_url" value="{{ pet.photo_url or '' }}">
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Veterinarian Info</label>
+                            <textarea class="form-control" name="vet_info" rows="3">{{ pet.vet_info or '' }}</textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Last Checkup Date</label>
+                            <input type="date" class="form-control" name="last_checkup_date" 
+                                   value="{% if pet.last_checkup_date %}{{ pet.last_checkup_date.strftime('%Y-%m-%d') }}{% endif %}">
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Medical Conditions</label>
+                            <textarea class="form-control" name="medical_conditions" rows="3">{{ pet.medical_conditions or '' }}</textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Allergies</label>
+                            <textarea class="form-control" name="allergies" rows="3">{{ pet.allergies or '' }}</textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Current Medications</label>
+                            <textarea class="form-control" name="medications" rows="3">{{ pet.medications or '' }}</textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Vaccination Dates</label>
+                            <textarea class="form-control" name="vaccination_dates" rows="3">{{ pet.vaccination_dates or '' }}</textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Feeding Schedule</label>
+                            <textarea class="form-control" name="feeding_schedule" rows="3">{{ pet.feeding_schedule or '' }}</textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Special Notes</label>
+                            <textarea class="form-control" name="special_notes" rows="3">{{ pet.special_notes or '' }}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Pet Modal -->
+<div class="modal fade" id="deletePetModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Pet</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <strong>{{ pet.name }}</strong>?</p>
+                <p class="text-danger">This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="POST" action="{{ url_for('main.delete_pet', pet_id=pet._id) }}" class="d-inline">
+                    <button type="submit" class="btn btn-danger">Delete Pet</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

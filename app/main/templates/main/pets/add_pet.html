@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block title %}Add Pet - Central App Management{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4><i class="bi bi-heart"></i> Add New Pet</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <!-- Basic Information -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h5 class="text-primary border-bottom pb-2">Basic Information</h5>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="name" class="form-label">Name *</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="species" class="form-label">Species *</label>
+                            <select class="form-select" id="species" name="species" required>
+                                <option value="">Select Species</option>
+                                {% for species in species_options %}
+                                    <option value="{{ species }}">{{ species }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="breed" class="form-label">Breed</label>
+                            <input type="text" class="form-control" id="breed" name="breed">
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="gender" class="form-label">Gender</label>
+                            <select class="form-select" id="gender" name="gender">
+                                {% for gender in gender_options %}
+                                    <option value="{{ gender }}" {% if gender == 'Unknown' %}selected{% endif %}>{{ gender }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="age" class="form-label">Age</label>
+                            <input type="text" class="form-control" id="age" name="age" placeholder="e.g., 2 years, 6 months">
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="weight" class="form-label">Weight</label>
+                            <input type="text" class="form-control" id="weight" name="weight" placeholder="e.g., 15 lbs, 7 kg">
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="color" class="form-label">Color</label>
+                            <input type="text" class="form-control" id="color" name="color">
+                        </div>
+                    </div>
+
+                    <!-- Identification -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h5 class="text-primary border-bottom pb-2">Identification</h5>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="microchip_id" class="form-label">Microchip ID</label>
+                            <input type="text" class="form-control" id="microchip_id" name="microchip_id">
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="registration_number" class="form-label">Registration Number</label>
+                            <input type="text" class="form-control" id="registration_number" name="registration_number">
+                        </div>
+                        
+                        <div class="col-12 mb-3">
+                            <label for="photo_url" class="form-label">Photo URL</label>
+                            <input type="url" class="form-control" id="photo_url" name="photo_url" placeholder="https://example.com/pet-photo.jpg">
+                        </div>
+                    </div>
+
+                    <!-- Medical Information -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h5 class="text-primary border-bottom pb-2">Medical Information</h5>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="vet_info" class="form-label">Veterinarian Info</label>
+                            <textarea class="form-control" id="vet_info" name="vet_info" rows="3" placeholder="Vet name, clinic, phone number"></textarea>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="last_checkup_date" class="form-label">Last Checkup Date</label>
+                            <input type="date" class="form-control" id="last_checkup_date" name="last_checkup_date">
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="medical_conditions" class="form-label">Medical Conditions</label>
+                            <textarea class="form-control" id="medical_conditions" name="medical_conditions" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="allergies" class="form-label">Allergies</label>
+                            <textarea class="form-control" id="allergies" name="allergies" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="medications" class="form-label">Current Medications</label>
+                            <textarea class="form-control" id="medications" name="medications" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="vaccination_dates" class="form-label">Vaccination Dates</label>
+                            <textarea class="form-control" id="vaccination_dates" name="vaccination_dates" rows="3" placeholder="List vaccination dates and types"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Care Information -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h5 class="text-primary border-bottom pb-2">Care Information</h5>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="feeding_schedule" class="form-label">Feeding Schedule</label>
+                            <textarea class="form-control" id="feeding_schedule" name="feeding_schedule" rows="3" placeholder="Times, amounts, food type"></textarea>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="special_notes" class="form-label">Special Notes</label>
+                            <textarea class="form-control" id="special_notes" name="special_notes" rows="3" placeholder="Behavioral notes, preferences, special care instructions"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('main.pets_index') }}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Back to Pets
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle"></i> Add Pet
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

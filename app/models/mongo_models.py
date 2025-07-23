@@ -154,3 +154,175 @@ class Task:
         """Delete all tasks for an application"""
         result = mongo.db[Task.collection].delete_many({'app_id': app_id})
         return result.deleted_count
+
+
+class Pet:
+    """Model for Pet documents in MongoDB"""
+    
+    collection = 'pets'
+    
+    SPECIES = ['Dog', 'Cat', 'Bird', 'Fish', 'Rabbit', 'Hamster', 'Guinea Pig', 'Reptile', 'Other']
+    GENDERS = ['Male', 'Female', 'Unknown']
+    
+    @staticmethod
+    def create(name, species, breed='', age='', weight='', color='', gender='Unknown', 
+               microchip_id='', registration_number='', photo_url='', vet_info='', 
+               medical_conditions='', allergies='', medications='', last_checkup_date=None,
+               feeding_schedule='', special_notes='', vaccination_dates=''):
+        """Create a new pet"""
+        pet_doc = {
+            'name': name,
+            'species': species,
+            'breed': breed,
+            'age': age,
+            'weight': weight,
+            'color': color,
+            'gender': gender,
+            'microchip_id': microchip_id,
+            'registration_number': registration_number,
+            'photo_url': photo_url,
+            'vet_info': vet_info,
+            'medical_conditions': medical_conditions,
+            'allergies': allergies,
+            'medications': medications,
+            'last_checkup_date': last_checkup_date,
+            'feeding_schedule': feeding_schedule,
+            'special_notes': special_notes,
+            'vaccination_dates': vaccination_dates,
+            'created_at': datetime.utcnow(),
+            'updated_at': datetime.utcnow()
+        }
+        result = mongo.db[Pet.collection].insert_one(pet_doc)
+        return str(result.inserted_id)
+    
+    @staticmethod
+    def get_all():
+        """Get all pets"""
+        pets = list(mongo.db[Pet.collection].find().sort('name', 1))
+        for pet in pets:
+            pet['_id'] = str(pet['_id'])
+        return pets
+    
+    @staticmethod
+    def get_by_id(pet_id):
+        """Get a single pet by ID"""
+        pet = mongo.db[Pet.collection].find_one({'_id': ObjectId(pet_id)})
+        if pet:
+            pet['_id'] = str(pet['_id'])
+        return pet
+    
+    @staticmethod
+    def update(pet_id, update_data):
+        """Update a pet"""
+        update_data['updated_at'] = datetime.utcnow()
+        result = mongo.db[Pet.collection].update_one(
+            {'_id': ObjectId(pet_id)},
+            {'$set': update_data}
+        )
+        return result.modified_count > 0
+    
+    @staticmethod
+    def delete(pet_id):
+        """Delete a pet"""
+        result = mongo.db[Pet.collection].delete_one({'_id': ObjectId(pet_id)})
+        return result.deleted_count > 0
+    
+    @staticmethod
+    def get_by_species(species):
+        """Get pets by species"""
+        pets = list(mongo.db[Pet.collection].find({'species': species}).sort('name', 1))
+        for pet in pets:
+            pet['_id'] = str(pet['_id'])
+        return pets
+
+
+class InventoryItem:
+    """Model for Inventory Item documents in MongoDB"""
+    
+    collection = 'inventory'
+    
+    CATEGORIES = ['Food', 'Toys', 'Medical', 'Grooming', 'Bedding', 'Accessories', 'Treats', 'Other']
+    UNITS = ['pieces', 'lbs', 'kg', 'bottles', 'boxes', 'bags', 'cans', 'tubes']
+    
+    @staticmethod
+    def create(name, description='', category='Other', quantity=0, unit='pieces', 
+               low_stock_threshold=5, price_per_unit=0.0, supplier='', 
+               purchase_date=None, expiration_date=None, for_pets=None, usage_notes=''):
+        """Create a new inventory item"""
+        inventory_doc = {
+            'name': name,
+            'description': description,
+            'category': category,
+            'quantity': quantity,
+            'unit': unit,
+            'low_stock_threshold': low_stock_threshold,
+            'price_per_unit': price_per_unit,
+            'supplier': supplier,
+            'purchase_date': purchase_date,
+            'expiration_date': expiration_date,
+            'for_pets': for_pets or [],
+            'usage_notes': usage_notes,
+            'created_at': datetime.utcnow(),
+            'updated_at': datetime.utcnow()
+        }
+        result = mongo.db[InventoryItem.collection].insert_one(inventory_doc)
+        return str(result.inserted_id)
+    
+    @staticmethod
+    def get_all():
+        """Get all inventory items with stock status"""
+        items = list(mongo.db[InventoryItem.collection].find().sort('name', 1))
+        for item in items:
+            item['_id'] = str(item['_id'])
+            # Add stock status
+            item['is_low_stock'] = item['quantity'] <= item['low_stock_threshold']
+            item['stock_status'] = 'Low Stock' if item['is_low_stock'] else 'In Stock'
+        return items
+    
+    @staticmethod
+    def get_by_id(item_id):
+        """Get a single inventory item by ID"""
+        item = mongo.db[InventoryItem.collection].find_one({'_id': ObjectId(item_id)})
+        if item:
+            item['_id'] = str(item['_id'])
+            item['is_low_stock'] = item['quantity'] <= item['low_stock_threshold']
+            item['stock_status'] = 'Low Stock' if item['is_low_stock'] else 'In Stock'
+        return item
+    
+    @staticmethod
+    def update(item_id, update_data):
+        """Update an inventory item"""
+        update_data['updated_at'] = datetime.utcnow()
+        result = mongo.db[InventoryItem.collection].update_one(
+            {'_id': ObjectId(item_id)},
+            {'$set': update_data}
+        )
+        return result.modified_count > 0
+    
+    @staticmethod
+    def delete(item_id):
+        """Delete an inventory item"""
+        result = mongo.db[InventoryItem.collection].delete_one({'_id': ObjectId(item_id)})
+        return result.deleted_count > 0
+    
+    @staticmethod
+    def get_low_stock():
+        """Get items that are low in stock"""
+        items = list(mongo.db[InventoryItem.collection].find({
+            '$expr': {'$lte': ['$quantity', '$low_stock_threshold']}
+        }).sort('name', 1))
+        for item in items:
+            item['_id'] = str(item['_id'])
+            item['is_low_stock'] = True
+            item['stock_status'] = 'Low Stock'
+        return items
+    
+    @staticmethod
+    def get_by_category(category):
+        """Get inventory items by category"""
+        items = list(mongo.db[InventoryItem.collection].find({'category': category}).sort('name', 1))
+        for item in items:
+            item['_id'] = str(item['_id'])
+            item['is_low_stock'] = item['quantity'] <= item['low_stock_threshold']
+            item['stock_status'] = 'Low Stock' if item['is_low_stock'] else 'In Stock'
+        return items

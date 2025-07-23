@@ -1,0 +1,360 @@
+{% extends "base.html" %}
+
+{% block title %}{{ item.name }} - Inventory Details{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1><i class="bi bi-box"></i> {{ item.name }}</h1>
+        <p class="text-muted">{{ item.category }}{% if item.description %} - {{ item.description }}{% endif %}</p>
+    </div>
+    <div>
+        <a href="{{ url_for('main.inventory_index') }}" class="btn btn-secondary me-2">
+            <i class="bi bi-arrow-left"></i> Back to Inventory
+        </a>
+        <button type="button" class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#editItemModal">
+            <i class="bi bi-pencil"></i> Edit
+        </button>
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteItemModal">
+            <i class="bi bi-trash"></i> Delete
+        </button>
+    </div>
+</div>
+
+{% if item.is_low_stock %}
+    <div class="alert alert-warning" role="alert">
+        <i class="bi bi-exclamation-triangle"></i> <strong>Low Stock Alert!</strong> This item is running low. Current stock: {{ item.quantity }} {{ item.unit }}
+    </div>
+{% endif %}
+
+<div class="row">
+    <div class="col-md-4">
+        <!-- Stock Status Card -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5><i class="bi bi-graph-up"></i> Stock Status</h5>
+            </div>
+            <div class="card-body text-center">
+                <div class="mb-3">
+                    <span class="display-4 {% if item.is_low_stock %}text-danger{% else %}text-success{% endif %}">
+                        {{ item.quantity }}
+                    </span>
+                    <div class="text-muted">{{ item.unit }}</div>
+                </div>
+                
+                <div class="mb-3">
+                    <span class="badge {% if item.is_low_stock %}bg-danger{% else %}bg-success{% endif %} fs-6">
+                        {{ item.stock_status }}
+                    </span>
+                </div>
+                
+                <!-- Stock Level Progress -->
+                {% set stock_percentage = ((item.quantity / (item.low_stock_threshold * 2)) * 100) if item.low_stock_threshold > 0 else 100 %}
+                {% set stock_percentage = stock_percentage if stock_percentage <= 100 else 100 %}
+                <div class="progress mb-2" style="height: 10px;">
+                    <div class="progress-bar {% if item.is_low_stock %}bg-danger{% else %}bg-success{% endif %}" 
+                         role="progressbar" 
+                         style="width: {{ stock_percentage }}%"
+                         aria-valuenow="{{ stock_percentage }}" 
+                         aria-valuemin="0" 
+                         aria-valuemax="100">
+                    </div>
+                </div>
+                <small class="text-muted">Low stock threshold: {{ item.low_stock_threshold }} {{ item.unit }}</small>
+            </div>
+        </div>
+
+        <!-- Item Information -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5><i class="bi bi-info-circle"></i> Item Information</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Name:</strong> {{ item.name }}</p>
+                <p><strong>Category:</strong> {{ item.category }}</p>
+                <p><strong>Unit:</strong> {{ item.unit }}</p>
+                {% if item.description %}<p><strong>Description:</strong> {{ item.description }}</p>{% endif %}
+                <hr>
+                <small class="text-muted">
+                    <p><strong>Added:</strong> {{ item.created_at.strftime('%Y-%m-%d %H:%M') if item.created_at else 'Unknown' }}</p>
+                    <p><strong>Updated:</strong> {{ item.updated_at.strftime('%Y-%m-%d %H:%M') if item.updated_at else 'Unknown' }}</p>
+                </small>
+            </div>
+        </div>
+
+        <!-- Financial Information -->
+        {% if item.price_per_unit > 0 %}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5><i class="bi bi-currency-dollar"></i> Financial Information</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Price per Unit:</strong> ${{ "%.2f"|format(item.price_per_unit) }}</p>
+                <p><strong>Total Value:</strong> ${{ "%.2f"|format(item.price_per_unit * item.quantity) }}</p>
+                {% if item.supplier %}<p><strong>Supplier:</strong> {{ item.supplier }}</p>{% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="col-md-8">
+        <!-- Purchase & Expiration Information -->
+        {% if item.purchase_date or item.expiration_date %}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5><i class="bi bi-calendar"></i> Dates</h5>
+            </div>
+            <div class="card-body">
+                {% if item.purchase_date %}
+                    <p><strong>Purchase Date:</strong> {{ item.purchase_date.strftime('%Y-%m-%d') }}</p>
+                {% endif %}
+                
+                {% if item.expiration_date %}
+                    <p><strong>Expiration Date:</strong> 
+                        {{ item.expiration_date.strftime('%Y-%m-%d') }}
+                        {% set days_until_expiry = (item.expiration_date - datetime.utcnow()).days %}
+                        {% if days_until_expiry < 0 %}
+                            <span class="badge bg-danger">Expired</span>
+                        {% elif days_until_expiry <= 7 %}
+                            <span class="badge bg-warning">Expires in {{ days_until_expiry }} days</span>
+                        {% elif days_until_expiry <= 30 %}
+                            <span class="badge bg-info">Expires in {{ days_until_expiry }} days</span>
+                        {% endif %}
+                    </p>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Associated Pets -->
+        {% if associated_pets %}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5><i class="bi bi-heart"></i> Associated Pets</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for pet in associated_pets %}
+                        <div class="col-md-6 mb-3">
+                            <div class="card border-secondary">
+                                <div class="card-body">
+                                    <h6>{{ pet.name }}</h6>
+                                    <p class="text-muted small">{{ pet.species }}{% if pet.breed %} - {{ pet.breed }}{% endif %}</p>
+                                    {% if pet.age %}
+                                        <p class="text-muted small">Age: {{ pet.age }}</p>
+                                    {% endif %}
+                                    <a href="{{ url_for('main.pet_detail', pet_id=pet._id) }}" class="btn btn-sm btn-outline-primary">
+                                        View Pet Details
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Usage Notes -->
+        {% if item.usage_notes %}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5><i class="bi bi-sticky"></i> Usage Notes</h5>
+            </div>
+            <div class="card-body">
+                <p>{{ item.usage_notes }}</p>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Quick Actions -->
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="bi bi-lightning"></i> Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <h6>Update Stock Quantity</h6>
+                        <form method="POST" action="{{ url_for('main.update_inventory', item_id=item._id) }}" class="d-flex">
+                            <input type="hidden" name="name" value="{{ item.name }}">
+                            <input type="hidden" name="description" value="{{ item.description or '' }}">
+                            <input type="hidden" name="category" value="{{ item.category }}">
+                            <input type="hidden" name="unit" value="{{ item.unit }}">
+                            <input type="hidden" name="low_stock_threshold" value="{{ item.low_stock_threshold }}">
+                            <input type="hidden" name="price_per_unit" value="{{ item.price_per_unit }}">
+                            <input type="hidden" name="supplier" value="{{ item.supplier or '' }}">
+                            <input type="hidden" name="usage_notes" value="{{ item.usage_notes or '' }}">
+                            {% if item.purchase_date %}
+                                <input type="hidden" name="purchase_date" value="{{ item.purchase_date.strftime('%Y-%m-%d') }}">
+                            {% endif %}
+                            {% if item.expiration_date %}
+                                <input type="hidden" name="expiration_date" value="{{ item.expiration_date.strftime('%Y-%m-%d') }}">
+                            {% endif %}
+                            {% for pet_id in item.for_pets %}
+                                <input type="hidden" name="for_pets" value="{{ pet_id }}">
+                            {% endfor %}
+                            
+                            <input type="number" class="form-control me-2" name="quantity" 
+                                   value="{{ item.quantity }}" min="0" required style="max-width: 100px;">
+                            <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                        </form>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <h6>Stock Actions</h6>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-success btn-sm" onclick="adjustStock(5)">+5</button>
+                            <button type="button" class="btn btn-success btn-sm" onclick="adjustStock(1)">+1</button>
+                            <button type="button" class="btn btn-warning btn-sm" onclick="adjustStock(-1)">-1</button>
+                            <button type="button" class="btn btn-warning btn-sm" onclick="adjustStock(-5)">-5</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Item Modal -->
+<div class="modal fade" id="editItemModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form method="POST" action="{{ url_for('main.update_inventory', item_id=item._id) }}">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit {{ item.name }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-8">
+                            <label class="form-label">Item Name *</label>
+                            <input type="text" class="form-control" name="name" value="{{ item.name }}" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Category</label>
+                            <select class="form-select" name="category">
+                                {% for category in category_options %}
+                                    <option value="{{ category }}" {% if category == item.category %}selected{% endif %}>{{ category }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" name="description" rows="2">{{ item.description or '' }}</textarea>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Quantity *</label>
+                            <input type="number" class="form-control" name="quantity" value="{{ item.quantity }}" min="0" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Unit</label>
+                            <select class="form-select" name="unit">
+                                {% for unit in unit_options %}
+                                    <option value="{{ unit }}" {% if unit == item.unit %}selected{% endif %}>{{ unit }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Low Stock Alert</label>
+                            <input type="number" class="form-control" name="low_stock_threshold" value="{{ item.low_stock_threshold }}" min="0">
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Price per Unit</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" name="price_per_unit" value="{{ item.price_per_unit }}" min="0" step="0.01">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Purchase Date</label>
+                            <input type="date" class="form-control" name="purchase_date" 
+                                   value="{% if item.purchase_date %}{{ item.purchase_date.strftime('%Y-%m-%d') }}{% endif %}">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Expiration Date</label>
+                            <input type="date" class="form-control" name="expiration_date" 
+                                   value="{% if item.expiration_date %}{{ item.expiration_date.strftime('%Y-%m-%d') }}{% endif %}">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Supplier</label>
+                        <input type="text" class="form-control" name="supplier" value="{{ item.supplier or '' }}">
+                    </div>
+                    
+                    <!-- Pet Associations -->
+                    {% if all_pets %}
+                    <div class="mb-3">
+                        <label class="form-label">Associated Pets</label>
+                        <div class="row">
+                            {% for pet in all_pets %}
+                                <div class="col-md-4 mb-2">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="edit_pet_{{ pet._id }}" 
+                                               name="for_pets" value="{{ pet._id }}"
+                                               {% if pet._id in item.for_pets %}checked{% endif %}>
+                                        <label class="form-check-label" for="edit_pet_{{ pet._id }}">
+                                            {{ pet.name }} ({{ pet.species }})
+                                        </label>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Usage Notes</label>
+                        <textarea class="form-control" name="usage_notes" rows="3">{{ item.usage_notes or '' }}</textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Item Modal -->
+<div class="modal fade" id="deleteItemModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Inventory Item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete <strong>{{ item.name }}</strong>?</p>
+                <p class="text-danger">This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form method="POST" action="{{ url_for('main.delete_inventory', item_id=item._id) }}" class="d-inline">
+                    <button type="submit" class="btn btn-danger">Delete Item</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function adjustStock(adjustment) {
+    const quantityInput = document.querySelector('input[name="quantity"]');
+    const currentQuantity = parseInt(quantityInput.value) || 0;
+    const newQuantity = Math.max(0, currentQuantity + adjustment);
+    quantityInput.value = newQuantity;
+    
+    // Submit the form
+    quantityInput.closest('form').submit();
+}
+</script>
+{% endblock %}

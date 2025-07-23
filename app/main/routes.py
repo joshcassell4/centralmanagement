@@ -1,7 +1,8 @@
 from flask import render_template, request, redirect, url_for, flash
 from app.main import main_bp
-from app.models.mongo_models import Application, Task
+from app.models.mongo_models import Application, Task, Pet, InventoryItem
 from bson.errors import InvalidId
+from datetime import datetime
 
 @main_bp.route('/')
 @main_bp.route('/applications')
@@ -181,8 +182,10 @@ def update_application(app_id):
 def dashboard():
     """Display the status dashboard"""
     applications = Application.get_all()
+    pets = Pet.get_all()
+    inventory_items = InventoryItem.get_all()
     
-    # Calculate overall statistics
+    # Calculate application statistics
     total_apps = len(applications)
     total_tasks = sum(app['total_tasks'] for app in applications)
     completed_tasks = sum(app['completed_tasks'] for app in applications)
@@ -193,6 +196,37 @@ def dashboard():
         round((completed_tasks / total_tasks) * 100) 
         if total_tasks > 0 else 0
     )
+    
+    # Calculate pet statistics
+    total_pets = len(pets)
+    pets_by_species = {}
+    pets_needing_checkup = []
+    
+    for pet in pets:
+        species = pet.get('species', 'Unknown')
+        pets_by_species[species] = pets_by_species.get(species, 0) + 1
+        
+        # Check if pet needs a checkup (more than 1 year since last checkup)
+        if pet.get('last_checkup_date'):
+            days_since_checkup = (datetime.utcnow() - pet['last_checkup_date']).days
+            if days_since_checkup > 365:  # More than 1 year
+                pets_needing_checkup.append(pet)
+        else:
+            # No checkup date recorded
+            pets_needing_checkup.append(pet)
+    
+    # Calculate inventory statistics
+    total_inventory_items = len(inventory_items)
+    low_stock_items = [item for item in inventory_items if item['is_low_stock']]
+    total_inventory_value = sum(item['quantity'] * item['price_per_unit'] for item in inventory_items)
+    
+    # Items expiring soon (within 30 days)
+    expiring_soon = []
+    for item in inventory_items:
+        if item.get('expiration_date'):
+            days_until_expiry = (item['expiration_date'] - datetime.utcnow()).days
+            if 0 <= days_until_expiry <= 30:
+                expiring_soon.append(item)
     
     # Sort applications by different criteria
     most_active = sorted(applications, 
@@ -206,4 +240,380 @@ def dashboard():
                          completed_tasks=completed_tasks,
                          in_progress_tasks=in_progress_tasks,
                          overall_completion=overall_completion,
-                         most_active=most_active)
+                         most_active=most_active,
+                         pets=pets,
+                         total_pets=total_pets,
+                         pets_by_species=pets_by_species,
+                         pets_needing_checkup=pets_needing_checkup,
+                         inventory_items=inventory_items,
+                         total_inventory_items=total_inventory_items,
+                         low_stock_items=low_stock_items,
+                         total_inventory_value=total_inventory_value,
+                         expiring_soon=expiring_soon)
+
+
+# Pet Routes
+@main_bp.route('/pets')
+def pets_index():
+    """Display list of all pets"""
+    pets = Pet.get_all()
+    return render_template('main/pets/index.html', pets=pets)
+
+
+@main_bp.route('/pets/add', methods=['GET', 'POST'])
+def add_pet():
+    """Add a new pet"""
+    if request.method == 'POST':
+        name = request.form.get('name', '').strip()
+        species = request.form.get('species', '').strip()
+        breed = request.form.get('breed', '').strip()
+        age = request.form.get('age', '').strip()
+        weight = request.form.get('weight', '').strip()
+        color = request.form.get('color', '').strip()
+        gender = request.form.get('gender', 'Unknown')
+        microchip_id = request.form.get('microchip_id', '').strip()
+        registration_number = request.form.get('registration_number', '').strip()
+        photo_url = request.form.get('photo_url', '').strip()
+        vet_info = request.form.get('vet_info', '').strip()
+        medical_conditions = request.form.get('medical_conditions', '').strip()
+        allergies = request.form.get('allergies', '').strip()
+        medications = request.form.get('medications', '').strip()
+        feeding_schedule = request.form.get('feeding_schedule', '').strip()
+        special_notes = request.form.get('special_notes', '').strip()
+        vaccination_dates = request.form.get('vaccination_dates', '').strip()
+        
+        # Handle last_checkup_date
+        last_checkup_str = request.form.get('last_checkup_date', '').strip()
+        last_checkup_date = None
+        if last_checkup_str:
+            try:
+                last_checkup_date = datetime.strptime(last_checkup_str, '%Y-%m-%d')
+            except ValueError:
+                flash('Invalid date format for last checkup', 'danger')
+                return redirect(url_for('main.add_pet'))
+        
+        # Validate required fields
+        if not name:
+            flash('Pet name is required', 'danger')
+            return redirect(url_for('main.add_pet'))
+        
+        if not species:
+            flash('Pet species is required', 'danger')
+            return redirect(url_for('main.add_pet'))
+        
+        # Create the pet
+        try:
+            pet_id = Pet.create(name, species, breed, age, weight, color, gender,
+                               microchip_id, registration_number, photo_url, vet_info,
+                               medical_conditions, allergies, medications, last_checkup_date,
+                               feeding_schedule, special_notes, vaccination_dates)
+            flash(f'Pet "{name}" added successfully!', 'success')
+            return redirect(url_for('main.pet_detail', pet_id=pet_id))
+        except Exception as e:
+            flash(f'Error adding pet: {str(e)}', 'danger')
+            return redirect(url_for('main.add_pet'))
+    
+    return render_template('main/pets/add_pet.html', 
+                         species_options=Pet.SPECIES, 
+                         gender_options=Pet.GENDERS)
+
+
+@main_bp.route('/pets/<pet_id>')
+def pet_detail(pet_id):
+    """Display pet details"""
+    try:
+        pet = Pet.get_by_id(pet_id)
+        if not pet:
+            flash('Pet not found', 'danger')
+            return redirect(url_for('main.pets_index'))
+        
+        # Get inventory items associated with this pet
+        all_inventory = InventoryItem.get_all()
+        pet_inventory = [item for item in all_inventory if pet_id in item.get('for_pets', [])]
+        
+        return render_template('main/pets/pet_detail.html', 
+                             pet=pet, 
+                             pet_inventory=pet_inventory,
+                             species_options=Pet.SPECIES,
+                             gender_options=Pet.GENDERS)
+    except InvalidId:
+        flash('Invalid pet ID', 'danger')
+        return redirect(url_for('main.pets_index'))
+
+
+@main_bp.route('/pets/<pet_id>/update', methods=['POST'])
+def update_pet(pet_id):
+    """Update a pet"""
+    try:
+        pet = Pet.get_by_id(pet_id)
+        if not pet:
+            flash('Pet not found', 'danger')
+            return redirect(url_for('main.pets_index'))
+        
+        # Handle last_checkup_date
+        last_checkup_str = request.form.get('last_checkup_date', '').strip()
+        last_checkup_date = pet.get('last_checkup_date')
+        if last_checkup_str:
+            try:
+                last_checkup_date = datetime.strptime(last_checkup_str, '%Y-%m-%d')
+            except ValueError:
+                flash('Invalid date format for last checkup', 'danger')
+                return redirect(url_for('main.pet_detail', pet_id=pet_id))
+        elif last_checkup_str == '':
+            last_checkup_date = None
+        
+        update_data = {
+            'name': request.form.get('name', pet['name']).strip(),
+            'species': request.form.get('species', pet['species']).strip(),
+            'breed': request.form.get('breed', pet.get('breed', '')).strip(),
+            'age': request.form.get('age', pet.get('age', '')).strip(),
+            'weight': request.form.get('weight', pet.get('weight', '')).strip(),
+            'color': request.form.get('color', pet.get('color', '')).strip(),
+            'gender': request.form.get('gender', pet.get('gender', 'Unknown')),
+            'microchip_id': request.form.get('microchip_id', pet.get('microchip_id', '')).strip(),
+            'registration_number': request.form.get('registration_number', pet.get('registration_number', '')).strip(),
+            'photo_url': request.form.get('photo_url', pet.get('photo_url', '')).strip(),
+            'vet_info': request.form.get('vet_info', pet.get('vet_info', '')).strip(),
+            'medical_conditions': request.form.get('medical_conditions', pet.get('medical_conditions', '')).strip(),
+            'allergies': request.form.get('allergies', pet.get('allergies', '')).strip(),
+            'medications': request.form.get('medications', pet.get('medications', '')).strip(),
+            'last_checkup_date': last_checkup_date,
+            'feeding_schedule': request.form.get('feeding_schedule', pet.get('feeding_schedule', '')).strip(),
+            'special_notes': request.form.get('special_notes', pet.get('special_notes', '')).strip(),
+            'vaccination_dates': request.form.get('vaccination_dates', pet.get('vaccination_dates', '')).strip()
+        }
+        
+        if Pet.update(pet_id, update_data):
+            flash('Pet updated successfully!', 'success')
+        else:
+            flash('Error updating pet', 'danger')
+        
+        return redirect(url_for('main.pet_detail', pet_id=pet_id))
+    except InvalidId:
+        flash('Invalid pet ID', 'danger')
+        return redirect(url_for('main.pets_index'))
+
+
+@main_bp.route('/pets/<pet_id>/delete', methods=['POST'])
+def delete_pet(pet_id):
+    """Delete a pet"""
+    try:
+        pet = Pet.get_by_id(pet_id)
+        if not pet:
+            flash('Pet not found', 'danger')
+            return redirect(url_for('main.pets_index'))
+        
+        if Pet.delete(pet_id):
+            flash(f'Pet "{pet["name"]}" deleted successfully!', 'success')
+        else:
+            flash('Error deleting pet', 'danger')
+        
+        return redirect(url_for('main.pets_index'))
+    except InvalidId:
+        flash('Invalid pet ID', 'danger')
+        return redirect(url_for('main.pets_index'))
+
+
+# Inventory Routes
+@main_bp.route('/inventory')
+def inventory_index():
+    """Display list of all inventory items"""
+    items = InventoryItem.get_all()
+    low_stock_items = [item for item in items if item['is_low_stock']]
+    return render_template('main/inventory/index.html', 
+                         items=items, 
+                         low_stock_count=len(low_stock_items))
+
+
+@main_bp.route('/inventory/add', methods=['GET', 'POST'])
+def add_inventory():
+    """Add a new inventory item"""
+    if request.method == 'POST':
+        name = request.form.get('name', '').strip()
+        description = request.form.get('description', '').strip()
+        category = request.form.get('category', 'Other')
+        quantity = request.form.get('quantity', '0')
+        unit = request.form.get('unit', 'pieces')
+        low_stock_threshold = request.form.get('low_stock_threshold', '5')
+        price_per_unit = request.form.get('price_per_unit', '0.0')
+        supplier = request.form.get('supplier', '').strip()
+        usage_notes = request.form.get('usage_notes', '').strip()
+        
+        # Handle dates
+        purchase_date_str = request.form.get('purchase_date', '').strip()
+        expiration_date_str = request.form.get('expiration_date', '').strip()
+        
+        purchase_date = None
+        expiration_date = None
+        
+        if purchase_date_str:
+            try:
+                purchase_date = datetime.strptime(purchase_date_str, '%Y-%m-%d')
+            except ValueError:
+                flash('Invalid purchase date format', 'danger')
+                return redirect(url_for('main.add_inventory'))
+        
+        if expiration_date_str:
+            try:
+                expiration_date = datetime.strptime(expiration_date_str, '%Y-%m-%d')
+            except ValueError:
+                flash('Invalid expiration date format', 'danger')
+                return redirect(url_for('main.add_inventory'))
+        
+        # Handle for_pets (multiple pets can be selected)
+        for_pets = request.form.getlist('for_pets')
+        
+        # Convert numeric fields
+        try:
+            quantity = int(quantity)
+            low_stock_threshold = int(low_stock_threshold)
+            price_per_unit = float(price_per_unit)
+        except ValueError:
+            flash('Invalid numeric values provided', 'danger')
+            return redirect(url_for('main.add_inventory'))
+        
+        # Validate required fields
+        if not name:
+            flash('Item name is required', 'danger')
+            return redirect(url_for('main.add_inventory'))
+        
+        # Create the inventory item
+        try:
+            item_id = InventoryItem.create(name, description, category, quantity, unit,
+                                         low_stock_threshold, price_per_unit, supplier,
+                                         purchase_date, expiration_date, for_pets, usage_notes)
+            flash(f'Inventory item "{name}" added successfully!', 'success')
+            return redirect(url_for('main.inventory_detail', item_id=item_id))
+        except Exception as e:
+            flash(f'Error adding inventory item: {str(e)}', 'danger')
+            return redirect(url_for('main.add_inventory'))
+    
+    # Get pets for the form
+    pets = Pet.get_all()
+    return render_template('main/inventory/add_inventory.html', 
+                         category_options=InventoryItem.CATEGORIES,
+                         unit_options=InventoryItem.UNITS,
+                         pets=pets)
+
+
+@main_bp.route('/inventory/<item_id>')
+def inventory_detail(item_id):
+    """Display inventory item details"""
+    try:
+        item = InventoryItem.get_by_id(item_id)
+        if not item:
+            flash('Inventory item not found', 'danger')
+            return redirect(url_for('main.inventory_index'))
+        
+        # Get pets associated with this item  
+        associated_pets = []
+        if item.get('for_pets'):
+            for pet_id in item['for_pets']:
+                pet = Pet.get_by_id(pet_id)
+                if pet:
+                    associated_pets.append(pet)
+        
+        # Get all pets for updating associations
+        all_pets = Pet.get_all()
+        
+        return render_template('main/inventory/inventory_detail.html', 
+                             item=item, 
+                             associated_pets=associated_pets,
+                             all_pets=all_pets,
+                             category_options=InventoryItem.CATEGORIES,
+                             unit_options=InventoryItem.UNITS)
+    except InvalidId:
+        flash('Invalid inventory item ID', 'danger')
+        return redirect(url_for('main.inventory_index'))
+
+
+@main_bp.route('/inventory/<item_id>/update', methods=['POST'])
+def update_inventory(item_id):
+    """Update an inventory item"""
+    try:
+        item = InventoryItem.get_by_id(item_id)
+        if not item:
+            flash('Inventory item not found', 'danger')
+            return redirect(url_for('main.inventory_index'))
+        
+        # Handle dates
+        purchase_date_str = request.form.get('purchase_date', '').strip()
+        expiration_date_str = request.form.get('expiration_date', '').strip()
+        
+        purchase_date = item.get('purchase_date')
+        expiration_date = item.get('expiration_date')
+        
+        if purchase_date_str:
+            try:
+                purchase_date = datetime.strptime(purchase_date_str, '%Y-%m-%d')
+            except ValueError:
+                flash('Invalid purchase date format', 'danger')
+                return redirect(url_for('main.inventory_detail', item_id=item_id))
+        elif purchase_date_str == '':
+            purchase_date = None
+            
+        if expiration_date_str:
+            try:
+                expiration_date = datetime.strptime(expiration_date_str, '%Y-%m-%d')
+            except ValueError:
+                flash('Invalid expiration date format', 'danger')
+                return redirect(url_for('main.inventory_detail', item_id=item_id))
+        elif expiration_date_str == '':
+            expiration_date = None
+        
+        # Handle for_pets
+        for_pets = request.form.getlist('for_pets')
+        
+        # Convert numeric fields
+        try:
+            quantity = int(request.form.get('quantity', item['quantity']))
+            low_stock_threshold = int(request.form.get('low_stock_threshold', item['low_stock_threshold']))
+            price_per_unit = float(request.form.get('price_per_unit', item['price_per_unit']))
+        except ValueError:
+            flash('Invalid numeric values provided', 'danger')
+            return redirect(url_for('main.inventory_detail', item_id=item_id))
+        
+        update_data = {
+            'name': request.form.get('name', item['name']).strip(),
+            'description': request.form.get('description', item.get('description', '')).strip(),
+            'category': request.form.get('category', item.get('category', 'Other')),
+            'quantity': quantity,
+            'unit': request.form.get('unit', item.get('unit', 'pieces')),
+            'low_stock_threshold': low_stock_threshold,
+            'price_per_unit': price_per_unit,
+            'supplier': request.form.get('supplier', item.get('supplier', '')).strip(),
+            'purchase_date': purchase_date,
+            'expiration_date': expiration_date,
+            'for_pets': for_pets,
+            'usage_notes': request.form.get('usage_notes', item.get('usage_notes', '')).strip()
+        }
+        
+        if InventoryItem.update(item_id, update_data):
+            flash('Inventory item updated successfully!', 'success')
+        else:
+            flash('Error updating inventory item', 'danger')
+        
+        return redirect(url_for('main.inventory_detail', item_id=item_id))
+    except InvalidId:
+        flash('Invalid inventory item ID', 'danger')
+        return redirect(url_for('main.inventory_index'))
+
+
+@main_bp.route('/inventory/<item_id>/delete', methods=['POST'])
+def delete_inventory(item_id):
+    """Delete an inventory item"""
+    try:
+        item = InventoryItem.get_by_id(item_id)
+        if not item:
+            flash('Inventory item not found', 'danger')
+            return redirect(url_for('main.inventory_index'))
+        
+        if InventoryItem.delete(item_id):
+            flash(f'Inventory item "{item["name"]}" deleted successfully!', 'success')
+        else:
+            flash('Error deleting inventory item', 'danger')
+        
+        return redirect(url_for('main.inventory_index'))
+    except InvalidId:
+        flash('Invalid inventory item ID', 'danger')
+        return redirect(url_for('main.inventory_index'))

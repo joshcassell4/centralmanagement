@@ -7,28 +7,40 @@
 
 <!-- Overall Statistics -->
 <div class="row mb-4">
-    <div class="col-md-3">
+    <div class="col-md-2">
         <div class="stat-card bg-primary text-white">
             <h3>{{ total_apps }}</h3>
-            <p>Total Applications</p>
+            <p>Applications</p>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
         <div class="stat-card bg-info text-white">
             <h3>{{ total_tasks }}</h3>
-            <p>Total Tasks</p>
+            <p>Tasks</p>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
         <div class="stat-card bg-success text-white">
             <h3>{{ completed_tasks }}</h3>
-            <p>Completed Tasks</p>
+            <p>Completed</p>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
+        <div class="stat-card bg-danger text-white">
+            <h3>{{ total_pets }}</h3>
+            <p>Pets</p>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="stat-card bg-secondary text-white">
+            <h3>{{ total_inventory_items }}</h3>
+            <p>Inventory Items</p>
+        </div>
+    </div>
+    <div class="col-md-2">
         <div class="stat-card bg-warning text-dark">
             <h3>{{ overall_completion }}%</h3>
-            <p>Overall Progress</p>
+            <p>App Progress</p>
         </div>
     </div>
 </div>
@@ -123,7 +135,7 @@
 </div>
 
 <!-- Task Distribution by Status -->
-<div class="card">
+<div class="card mb-4">
     <div class="card-header">
         <h5 class="mb-0">Task Distribution</h5>
     </div>
@@ -144,6 +156,195 @@
             <div class="col-md-4">
                 <h4 class="text-success">{{ completed_tasks }}</h4>
                 <p>Completed</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Pet and Inventory Dashboard -->
+<div class="row mb-4">
+    <!-- Pet Information -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="bi bi-heart"></i> Pet Information</h5>
+                <a href="{{ url_for('main.pets_index') }}" class="btn btn-sm btn-outline-primary">View All</a>
+            </div>
+            <div class="card-body">
+                {% if total_pets > 0 %}
+                    <!-- Pet Stats -->
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            <div class="text-center">
+                                <h4 class="text-primary">{{ total_pets }}</h4>
+                                <small class="text-muted">Total Pets</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center">
+                                <h4 class="{% if pets_needing_checkup|length > 0 %}text-warning{% else %}text-success{% endif %}">
+                                    {{ pets_needing_checkup|length }}
+                                </h4>
+                                <small class="text-muted">Need Checkup</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Species Breakdown -->
+                    {% if pets_by_species %}
+                        <h6 class="mb-2">Species Breakdown:</h6>
+                        {% for species, count in pets_by_species.items() %}
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>{{ species }}</span>
+                                <span class="badge bg-info">{{ count }}</span>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <!-- Pets Needing Checkup Alert -->
+                    {% if pets_needing_checkup %}
+                        <div class="alert alert-warning mt-3 mb-0">
+                            <small>
+                                <i class="bi bi-exclamation-triangle"></i> 
+                                <strong>{{ pets_needing_checkup|length }}</strong> pet(s) may need checkups:
+                                {% for pet in pets_needing_checkup[:3] %}
+                                    <a href="{{ url_for('main.pet_detail', pet_id=pet._id) }}" class="alert-link">{{ pet.name }}</a>{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                                {% if pets_needing_checkup|length > 3 %}
+                                    and {{ pets_needing_checkup|length - 3 }} more
+                                {% endif %}
+                            </small>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="text-center text-muted">
+                        <i class="bi bi-heart" style="font-size: 3rem; opacity: 0.3;"></i>
+                        <p class="mt-2">No pets registered yet</p>
+                        <a href="{{ url_for('main.add_pet') }}" class="btn btn-primary btn-sm">
+                            <i class="bi bi-plus-circle"></i> Add First Pet
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Inventory Information -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="bi bi-box"></i> Inventory Status</h5>
+                <a href="{{ url_for('main.inventory_index') }}" class="btn btn-sm btn-outline-primary">View All</a>
+            </div>
+            <div class="card-body">
+                {% if total_inventory_items > 0 %}
+                    <!-- Inventory Stats -->
+                    <div class="row mb-3">
+                        <div class="col-4">
+                            <div class="text-center">
+                                <h4 class="text-primary">{{ total_inventory_items }}</h4>
+                                <small class="text-muted">Total Items</small>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="text-center">
+                                <h4 class="{% if low_stock_items|length > 0 %}text-danger{% else %}text-success{% endif %}">
+                                    {{ low_stock_items|length }}
+                                </h4>
+                                <small class="text-muted">Low Stock</small>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="text-center">
+                                <h4 class="text-success">${{ "%.0f"|format(total_inventory_value) }}</h4>
+                                <small class="text-muted">Total Value</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Low Stock Alert -->
+                    {% if low_stock_items %}
+                        <div class="alert alert-danger mb-3">
+                            <small>
+                                <i class="bi bi-exclamation-triangle"></i> 
+                                <strong>{{ low_stock_items|length }}</strong> item(s) running low:
+                                {% for item in low_stock_items[:3] %}
+                                    <a href="{{ url_for('main.inventory_detail', item_id=item._id) }}" class="alert-link">{{ item.name }}</a> ({{ item.quantity }} {{ item.unit }}){% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                                {% if low_stock_items|length > 3 %}
+                                    and {{ low_stock_items|length - 3 }} more
+                                {% endif %}
+                            </small>
+                        </div>
+                    {% endif %}
+
+                    <!-- Expiring Soon Alert -->
+                    {% if expiring_soon %}
+                        <div class="alert alert-warning mb-3">
+                            <small>
+                                <i class="bi bi-calendar-x"></i> 
+                                <strong>{{ expiring_soon|length }}</strong> item(s) expiring soon:
+                                {% for item in expiring_soon[:2] %}
+                                    <a href="{{ url_for('main.inventory_detail', item_id=item._id) }}" class="alert-link">{{ item.name }}</a>{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                                {% if expiring_soon|length > 2 %}
+                                    and {{ expiring_soon|length - 2 }} more
+                                {% endif %}
+                            </small>
+                        </div>
+                    {% endif %}
+
+                    <!-- Quick Actions -->
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('main.add_inventory') }}" class="btn btn-success btn-sm">
+                            <i class="bi bi-plus"></i> Add Item
+                        </a>
+                        {% if low_stock_items %}
+                            <a href="{{ url_for('main.inventory_index') }}?filter=low" class="btn btn-warning btn-sm">
+                                <i class="bi bi-exclamation-triangle"></i> View Low Stock
+                            </a>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="text-center text-muted">
+                        <i class="bi bi-box" style="font-size: 3rem; opacity: 0.3;"></i>
+                        <p class="mt-2">No inventory items yet</p>
+                        <a href="{{ url_for('main.add_inventory') }}" class="btn btn-primary btn-sm">
+                            <i class="bi bi-plus-circle"></i> Add First Item
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-lightning"></i> Quick Actions</h5>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3 mb-2">
+                <a href="{{ url_for('main.add_application') }}" class="btn btn-primary w-100">
+                    <i class="bi bi-plus-circle"></i> Add Application
+                </a>
+            </div>
+            <div class="col-md-3 mb-2">
+                <a href="{{ url_for('main.add_pet') }}" class="btn btn-danger w-100">
+                    <i class="bi bi-heart-fill"></i> Add Pet
+                </a>
+            </div>
+            <div class="col-md-3 mb-2">
+                <a href="{{ url_for('main.add_inventory') }}" class="btn btn-secondary w-100">
+                    <i class="bi bi-box-seam-fill"></i> Add Inventory
+                </a>
+            </div>
+            <div class="col-md-3 mb-2">
+                <a href="{{ url_for('main.index') }}" class="btn btn-info w-100">
+                    <i class="bi bi-list-ul"></i> View All Apps
+                </a>
             </div>
         </div>
     </div>

@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+
+{% block title %}Add Inventory Item - Central App Management{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4><i class="bi bi-box"></i> Add Inventory Item</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <!-- Basic Information -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h5 class="text-primary border-bottom pb-2">Item Information</h5>
+                        </div>
+                        
+                        <div class="col-md-8 mb-3">
+                            <label for="name" class="form-label">Item Name *</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="category" class="form-label">Category</label>
+                            <select class="form-select" id="category" name="category">
+                                {% for category in category_options %}
+                                    <option value="{{ category }}" {% if category == 'Other' %}selected{% endif %}>{{ category }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="col-12 mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="3" placeholder="Brief description of the item"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Inventory Details -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h5 class="text-primary border-bottom pb-2">Inventory Details</h5>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="quantity" class="form-label">Current Quantity *</label>
+                            <input type="number" class="form-control" id="quantity" name="quantity" min="0" value="0" required>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="unit" class="form-label">Unit</label>
+                            <select class="form-select" id="unit" name="unit">
+                                {% for unit in unit_options %}
+                                    <option value="{{ unit }}" {% if unit == 'pieces' %}selected{% endif %}>{{ unit }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="low_stock_threshold" class="form-label">Low Stock Alert</label>
+                            <input type="number" class="form-control" id="low_stock_threshold" name="low_stock_threshold" min="0" value="5">
+                            <small class="form-text text-muted">Alert when quantity falls below this number</small>
+                        </div>
+                    </div>
+
+                    <!-- Purchase Information -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h5 class="text-primary border-bottom pb-2">Purchase Information</h5>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="price_per_unit" class="form-label">Price per Unit</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number" class="form-control" id="price_per_unit" name="price_per_unit" min="0" step="0.01" value="0.00">
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="purchase_date" class="form-label">Purchase Date</label>
+                            <input type="date" class="form-control" id="purchase_date" name="purchase_date">
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="expiration_date" class="form-label">Expiration Date</label>
+                            <input type="date" class="form-control" id="expiration_date" name="expiration_date">
+                        </div>
+                        
+                        <div class="col-12 mb-3">
+                            <label for="supplier" class="form-label">Supplier</label>
+                            <input type="text" class="form-control" id="supplier" name="supplier" placeholder="Store name, website, etc.">
+                        </div>
+                    </div>
+
+                    <!-- Pet Associations -->
+                    {% if pets %}
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h5 class="text-primary border-bottom pb-2">Pet Associations</h5>
+                            <p class="text-muted small">Select which pets this item is for (optional)</p>
+                        </div>
+                        
+                        <div class="col-12 mb-3">
+                            <div class="row">
+                                {% for pet in pets %}
+                                    <div class="col-md-4 mb-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="pet_{{ pet._id }}" name="for_pets" value="{{ pet._id }}">
+                                            <label class="form-check-label" for="pet_{{ pet._id }}">
+                                                {{ pet.name }} ({{ pet.species }})
+                                            </label>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Usage Notes -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h5 class="text-primary border-bottom pb-2">Additional Information</h5>
+                        </div>
+                        
+                        <div class="col-12 mb-3">
+                            <label for="usage_notes" class="form-label">Usage Notes</label>
+                            <textarea class="form-control" id="usage_notes" name="usage_notes" rows="3" placeholder="Special instructions, usage tips, storage requirements, etc."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('main.inventory_index') }}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Back to Inventory
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle"></i> Add Item
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-set purchase date to today
+    const purchaseDateInput = document.getElementById('purchase_date');
+    const today = new Date().toISOString().split('T')[0];
+    if (!purchaseDateInput.value) {
+        purchaseDateInput.value = today;
+    }
+    
+    // Calculate total value when price or quantity changes
+    const priceInput = document.getElementById('price_per_unit');
+    const quantityInput = document.getElementById('quantity');
+    
+    function updateTotalValue() {
+        const price = parseFloat(priceInput.value) || 0;
+        const quantity = parseInt(quantityInput.value) || 0;
+        const total = price * quantity;
+        
+        // You could display this somewhere if needed
+        console.log('Total value:', total.toFixed(2));
+    }
+    
+    priceInput.addEventListener('input', updateTotalValue);
+    quantityInput.addEventListener('input', updateTotalValue);
+});
+</script>
+{% endblock %}
