@@ -326,3 +326,143 @@ class InventoryItem:
             item['is_low_stock'] = item['quantity'] <= item['low_stock_threshold']
             item['stock_status'] = 'Low Stock' if item['is_low_stock'] else 'In Stock'
         return items
+
+
+class Todo:
+    """Model for Todo documents in MongoDB"""
+    
+    collection = 'todos'
+    
+    PRIORITIES = ['Low', 'Medium', 'High']
+    STATUSES = ['Todo', 'In Progress', 'Completed']
+    
+    @staticmethod
+    def create(title, description='', priority='Medium', status='Todo', due_date=None, 
+               tags=None, assigned_to=''):
+        """Create a new todo item"""
+        todo_doc = {
+            'title': title,
+            'description': description,
+            'priority': priority,
+            'status': status,
+            'due_date': due_date,
+            'tags': tags or [],
+            'assigned_to': assigned_to,
+            'completed_at': None,
+            'created_at': datetime.utcnow(),
+            'updated_at': datetime.utcnow()
+        }
+        result = mongo.db[Todo.collection].insert_one(todo_doc)
+        return str(result.inserted_id)
+    
+    @staticmethod
+    def get_all(status_filter=None, priority_filter=None, tag_filter=None):
+        """Get all todos with optional filtering"""
+        query = {}
+        if status_filter:
+            query['status'] = status_filter
+        if priority_filter:
+            query['priority'] = priority_filter
+        if tag_filter:
+            query['tags'] = tag_filter
+        
+        todos = list(mongo.db[Todo.collection].find(query).sort([('priority', -1), ('created_at', -1)]))
+        
+        for todo in todos:
+            todo['_id'] = str(todo['_id'])
+            # Add overdue flag if due date has passed
+            if todo.get('due_date') and todo['status'] != 'Completed':
+                todo['is_overdue'] = todo['due_date'] < datetime.utcnow()
+            else:
+                todo['is_overdue'] = False
+        
+        return todos
+    
+    @staticmethod
+    def get_by_id(todo_id):
+        """Get a single todo by ID"""
+        todo = mongo.db[Todo.collection].find_one({'_id': ObjectId(todo_id)})
+        if todo:
+            todo['_id'] = str(todo['_id'])
+            # Add overdue flag
+            if todo.get('due_date') and todo['status'] != 'Completed':
+                todo['is_overdue'] = todo['due_date'] < datetime.utcnow()
+            else:
+                todo['is_overdue'] = False
+        return todo
+    
+    @staticmethod
+    def update(todo_id, update_data):
+        """Update a todo item"""
+        update_data['updated_at'] = datetime.utcnow()
+        
+        # If marking as completed, set completed_at
+        if update_data.get('status') == 'Completed':
+            update_data['completed_at'] = datetime.utcnow()
+        
+        result = mongo.db[Todo.collection].update_one(
+            {'_id': ObjectId(todo_id)},
+            {'$set': update_data}
+        )
+        return result.modified_count > 0
+    
+    @staticmethod
+    def delete(todo_id):
+        """Delete a todo item"""
+        result = mongo.db[Todo.collection].delete_one({'_id': ObjectId(todo_id)})
+        return result.deleted_count > 0
+    
+    @staticmethod
+    def get_by_tag(tag):
+        """Get todos by tag"""
+        todos = list(mongo.db[Todo.collection].find({'tags': tag}).sort([('priority', -1), ('created_at', -1)]))
+        for todo in todos:
+            todo['_id'] = str(todo['_id'])
+            if todo.get('due_date') and todo['status'] != 'Completed':
+                todo['is_overdue'] = todo['due_date'] < datetime.utcnow()
+            else:
+                todo['is_overdue'] = False
+        return todos
+    
+    @staticmethod
+    def get_all_tags():
+        """Get all unique tags from todos"""
+        # Use aggregation to get all unique tags
+        pipeline = [
+            {'$unwind': '$tags'},
+            {'$group': {'_id': '$tags'}},
+            {'$sort': {'_id': 1}}
+        ]
+        result = list(mongo.db[Todo.collection].aggregate(pipeline))
+        return [doc['_id'] for doc in result]
+    
+    @staticmethod
+    def get_statistics():
+        """Get todo statistics"""
+        total = mongo.db[Todo.collection].count_documents({})
+        completed = mongo.db[Todo.collection].count_documents({'status': 'Completed'})
+        in_progress = mongo.db[Todo.collection].count_documents({'status': 'In Progress'})
+        todo = mongo.db[Todo.collection].count_documents({'status': 'Todo'})
+        
+        # Count by priority
+        high_priority = mongo.db[Todo.collection].count_documents({'priority': 'High', 'status': {'$ne': 'Completed'}})
+        medium_priority = mongo.db[Todo.collection].count_documents({'priority': 'Medium', 'status': {'$ne': 'Completed'}})
+        low_priority = mongo.db[Todo.collection].count_documents({'priority': 'Low', 'status': {'$ne': 'Completed'}})
+        
+        # Count overdue
+        overdue = mongo.db[Todo.collection].count_documents({
+            'due_date': {'$lt': datetime.utcnow()},
+            'status': {'$ne': 'Completed'}
+        })
+        
+        return {
+            'total': total,
+            'completed': completed,
+            'in_progress': in_progress,
+            'todo': todo,
+            'high_priority': high_priority,
+            'medium_priority': medium_priority,
+            'low_priority': low_priority,
+            'overdue': overdue,
+            'completion_rate': round((completed / total * 100) if total > 0 else 0, 1)
+        }

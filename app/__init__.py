@@ -22,8 +22,31 @@ def create_app():
     mongo.init_app(app)
     
     # Register blueprints
-    from app.main import main_bp
+    from app.main import main_bp, media_bp  
     app.register_blueprint(main_bp)
+    app.register_blueprint(media_bp)    
+    
+    # Custom template filters
+    @app.template_filter('format_file_size')
+    def format_file_size_filter(size):
+        """Format file size in human readable format"""
+        if size is None:
+            return ''
+        if size == 0:
+            return '0 B'
+        
+        units = ['B', 'KB', 'MB', 'GB', 'TB']
+        unit_index = 0
+        size = float(size)
+        
+        while size >= 1024 and unit_index < len(units) - 1:
+            size /= 1024
+            unit_index += 1
+        
+        if unit_index == 0:
+            return f'{int(size)} {units[unit_index]}'
+        else:
+            return f'{size:.2f} {units[unit_index]}'
     
     # Error handlers
     @app.errorhandler(404)

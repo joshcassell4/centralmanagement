@@ -2034,5 +2034,425 @@
       "command": "docker-compose ps",
       "description": "Check Docker container status"
     }
+  },
+  {
+    "session_id": "0e123bf8-fc31-4294-872e-edfa1a037990",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\0e123bf8-fc31-4294-872e-edfa1a037990.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Grep",
+    "tool_input": {
+      "pattern": "media_bp",
+      "output_mode": "files_with_matches"
+    }
+  },
+  {
+    "session_id": "0e123bf8-fc31-4294-872e-edfa1a037990",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\0e123bf8-fc31-4294-872e-edfa1a037990.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\app\\main\\routes.py"
+    }
+  },
+  {
+    "session_id": "0e123bf8-fc31-4294-872e-edfa1a037990",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\0e123bf8-fc31-4294-872e-edfa1a037990.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\docker-compose.yml"
+    }
+  },
+  {
+    "session_id": "0e123bf8-fc31-4294-872e-edfa1a037990",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\0e123bf8-fc31-4294-872e-edfa1a037990.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\app\\main\\__init__.py"
+    }
+  },
+  {
+    "session_id": "0e123bf8-fc31-4294-872e-edfa1a037990",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\0e123bf8-fc31-4294-872e-edfa1a037990.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\app\\__init__.py"
+    }
+  },
+  {
+    "session_id": "0e123bf8-fc31-4294-872e-edfa1a037990",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\0e123bf8-fc31-4294-872e-edfa1a037990.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "LS",
+    "tool_input": {
+      "path": "C:\\Users\\joshc\\centralmanagement\\app\\main\\templates\\main"
+    }
+  },
+  {
+    "session_id": "0e123bf8-fc31-4294-872e-edfa1a037990",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\0e123bf8-fc31-4294-872e-edfa1a037990.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "ExitPlanMode",
+    "tool_input": {
+      "plan": "To add directory listing functionality to your media route, I will:\n\n1. **Update the media route in routes.py** to add a new route handler for `/media/` that:\n   - Lists all files and directories in the media directory\n   - Generates clickable links for files and directories\n   - Handles subdirectory navigation\n\n2. **Create a new template** for displaying the directory listing at `app/main/templates/main/media_browser.html` that:\n   - Shows a clean, organized view of files and directories\n   - Provides navigation breadcrumbs for subdirectories\n   - Uses Bootstrap styling to match your existing UI\n   - Displays file sizes and modification times\n   - Shows appropriate icons for different file types\n\n3. **Update the existing media route** to handle subdirectories properly by:\n   - Modifying the `serve_image` function to handle nested paths\n   - Adding security checks to prevent directory traversal attacks\n\nThe implementation will:\n- Support browsing nested directories\n- Show file details (size, modified date)\n- Provide breadcrumb navigation\n- Use safe path handling to prevent security issues\n- Match your existing Bootstrap UI design"
+    }
+  },
+  {
+    "session_id": "0e123bf8-fc31-4294-872e-edfa1a037990",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\0e123bf8-fc31-4294-872e-edfa1a037990.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Update media routes in routes.py to add directory listing functionality",
+          "status": "pending",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Create media_browser.html template for directory listing display",
+          "status": "pending",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update serve_image function to handle subdirectories properly",
+          "status": "pending",
+          "priority": "medium",
+          "id": "3"
+        },
+        {
+          "content": "Test the media browser functionality",
+          "status": "pending",
+          "priority": "medium",
+          "id": "4"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "0e123bf8-fc31-4294-872e-edfa1a037990",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\0e123bf8-fc31-4294-872e-edfa1a037990.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Update media routes in routes.py to add directory listing functionality",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Create media_browser.html template for directory listing display",
+          "status": "pending",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update serve_image function to handle subdirectories properly",
+          "status": "pending",
+          "priority": "medium",
+          "id": "3"
+        },
+        {
+          "content": "Test the media browser functionality",
+          "status": "pending",
+          "priority": "medium",
+          "id": "4"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "0e123bf8-fc31-4294-872e-edfa1a037990",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\0e123bf8-fc31-4294-872e-edfa1a037990.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\app\\main\\routes.py",
+      "old_string": "from flask import send_from_directory, current_app\nimport os\n\n@media_bp.route('/media/<path:filename>')\ndef serve_image(filename):\n    return send_from_directory('/app/main/media_files', filename)",
+      "new_string": "from flask import send_from_directory, current_app, abort\nimport os\nfrom pathlib import Path\nfrom datetime import datetime\n\n@media_bp.route('/media/')\n@media_bp.route('/media/<path:subpath>')\ndef media_browser(subpath=''):\n    \"\"\"Browse media files and directories\"\"\"\n    media_root = Path('/app/main/media_files')\n    current_path = media_root / subpath\n    \n    # Security check: ensure we're not going outside media_root\n    try:\n        current_path = current_path.resolve()\n        if not str(current_path).startswith(str(media_root)):\n            abort(403)\n    except:\n        abort(404)\n    \n    if not current_path.exists():\n        abort(404)\n    \n    if current_path.is_file():\n        # If it's a file, serve it\n        directory = str(current_path.parent.relative_to(media_root))\n        if directory == '.':\n            directory = ''\n        return send_from_directory(str(current_path.parent), current_path.name)\n    \n    # It's a directory, list contents\n    items = []\n    for item in sorted(current_path.iterdir()):\n        relative_path = item.relative_to(media_root)\n        \n        if item.is_file():\n            stat = item.stat()\n            items.append({\n                'name': item.name,\n                'path': str(relative_path).replace('\\\\', '/'),\n                'is_dir': False,\n                'size': stat.st_size,\n                'modified': datetime.fromtimestamp(stat.st_mtime),\n                'extension': item.suffix.lower()\n            })\n        else:\n            items.append({\n                'name': item.name,\n                'path': str(relative_path).replace('\\\\', '/'),\n                'is_dir': True,\n                'size': None,\n                'modified': None,\n                'extension': None\n            })\n    \n    # Create breadcrumb navigation\n    breadcrumbs = []\n    if subpath:\n        parts = subpath.split('/')\n        for i, part in enumerate(parts):\n            breadcrumbs.append({\n                'name': part,\n                'path': '/'.join(parts[:i+1])\n            })\n    \n    return render_template('main/media_browser.html',\n                         items=items,\n                         current_path=subpath,\n                         breadcrumbs=breadcrumbs)\n\n@media_bp.route('/media/<path:filename>')\ndef serve_image(filename):\n    media_root = Path('/app/main/media_files')\n    file_path = media_root / filename\n    \n    # Security check\n    try:\n        file_path = file_path.resolve()\n        if not str(file_path).startswith(str(media_root)):\n            abort(403)\n    except:\n        abort(404)\n    \n    if not file_path.exists() or not file_path.is_file():\n        abort(404)\n    \n    return send_from_directory(str(file_path.parent), file_path.name)"
+    }
+  },
+  {
+    "session_id": "0e123bf8-fc31-4294-872e-edfa1a037990",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\0e123bf8-fc31-4294-872e-edfa1a037990.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Update media routes in routes.py to add directory listing functionality",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Create media_browser.html template for directory listing display",
+          "status": "in_progress",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update serve_image function to handle subdirectories properly",
+          "status": "completed",
+          "priority": "medium",
+          "id": "3"
+        },
+        {
+          "content": "Test the media browser functionality",
+          "status": "pending",
+          "priority": "medium",
+          "id": "4"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "0e123bf8-fc31-4294-872e-edfa1a037990",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\0e123bf8-fc31-4294-872e-edfa1a037990.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Write",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\app\\main\\templates\\main\\media_browser.html",
+      "content": "{% extends \"base.html\" %}\n\n{% block title %}Media Browser{% endblock %}\n\n{% block content %}\n<div class=\"container-fluid\">\n    <div class=\"row\">\n        <div class=\"col-12\">\n            <h1 class=\"mb-4\">\n                <i class=\"bi bi-folder2-open\"></i> Media Browser\n            </h1>\n            \n            <!-- Breadcrumb navigation -->\n            <nav aria-label=\"breadcrumb\">\n                <ol class=\"breadcrumb\">\n                    <li class=\"breadcrumb-item\">\n                        <a href=\"{{ url_for('media.media_browser') }}\">\n                            <i class=\"bi bi-house-door\"></i> Media\n                        </a>\n                    </li>\n                    {% for crumb in breadcrumbs %}\n                    <li class=\"breadcrumb-item {% if loop.last %}active{% endif %}\">\n                        {% if loop.last %}\n                            {{ crumb.name }}\n                        {% else %}\n                            <a href=\"{{ url_for('media.media_browser', subpath=crumb.path) }}\">{{ crumb.name }}</a>\n                        {% endif %}\n                    </li>\n                    {% endfor %}\n                </ol>\n            </nav>\n\n            <!-- File listing -->\n            <div class=\"card\">\n                <div class=\"card-body\">\n                    <div class=\"table-responsive\">\n                        <table class=\"table table-hover\">\n                            <thead>\n                                <tr>\n                                    <th style=\"width: 40px;\"></th>\n                                    <th>Name</th>\n                                    <th style=\"width: 150px;\">Size</th>\n                                    <th style=\"width: 200px;\">Modified</th>\n                                </tr>\n                            </thead>\n                            <tbody>\n                                {% if current_path %}\n                                <!-- Parent directory link -->\n                                <tr>\n                                    <td class=\"text-center\">\n                                        <i class=\"bi bi-arrow-up-circle text-secondary\"></i>\n                                    </td>\n                                    <td>\n                                        <a href=\"{{ url_for('media.media_browser', subpath='/'.join(current_path.split('/')[:-1])) if '/' in current_path else url_for('media.media_browser') }}\">\n                                            ..\n                                        </a>\n                                    </td>\n                                    <td></td>\n                                    <td></td>\n                                </tr>\n                                {% endif %}\n                                \n                                {% for item in items %}\n                                <tr>\n                                    <td class=\"text-center\">\n                                        {% if item.is_dir %}\n                                            <i class=\"bi bi-folder-fill text-warning\"></i>\n                                        {% else %}\n                                            {% if item.extension in ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.svg', '.webp'] %}\n                                                <i class=\"bi bi-file-image text-success\"></i>\n                                            {% elif item.extension in ['.mp4', '.avi', '.mov', '.wmv', '.flv', '.webm'] %}\n                                                <i class=\"bi bi-file-play text-info\"></i>\n                                            {% elif item.extension in ['.pdf'] %}\n                                                <i class=\"bi bi-file-pdf text-danger\"></i>\n                                            {% elif item.extension in ['.doc', '.docx'] %}\n                                                <i class=\"bi bi-file-word text-primary\"></i>\n                                            {% elif item.extension in ['.xls', '.xlsx'] %}\n                                                <i class=\"bi bi-file-excel text-success\"></i>\n                                            {% elif item.extension in ['.zip', '.rar', '.7z', '.tar', '.gz'] %}\n                                                <i class=\"bi bi-file-zip text-secondary\"></i>\n                                            {% else %}\n                                                <i class=\"bi bi-file-earmark text-secondary\"></i>\n                                            {% endif %}\n                                        {% endif %}\n                                    </td>\n                                    <td>\n                                        {% if item.is_dir %}\n                                            <a href=\"{{ url_for('media.media_browser', subpath=item.path) }}\">\n                                                {{ item.name }}\n                                            </a>\n                                        {% else %}\n                                            <a href=\"{{ url_for('media.serve_image', filename=item.path) }}\" target=\"_blank\">\n                                                {{ item.name }}\n                                            </a>\n                                        {% endif %}\n                                    </td>\n                                    <td>\n                                        {% if not item.is_dir %}\n                                            {{ format_file_size(item.size) }}\n                                        {% else %}\n                                            <span class=\"text-muted\">\u00e2\u20ac\u201d</span>\n                                        {% endif %}\n                                    </td>\n                                    <td>\n                                        {% if not item.is_dir %}\n                                            {{ item.modified.strftime('%Y-%m-%d %H:%M') }}\n                                        {% else %}\n                                            <span class=\"text-muted\">\u00e2\u20ac\u201d</span>\n                                        {% endif %}\n                                    </td>\n                                </tr>\n                                {% else %}\n                                <tr>\n                                    <td colspan=\"4\" class=\"text-center text-muted\">\n                                        <i class=\"bi bi-folder-x\"></i> This directory is empty\n                                    </td>\n                                </tr>\n                                {% endfor %}\n                            </tbody>\n                        </table>\n                    </div>\n                </div>\n            </div>\n            \n            <!-- Summary -->\n            <div class=\"mt-3 text-muted\">\n                <small>\n                    {% set dir_count = items|selectattr('is_dir')|list|length %}\n                    {% set file_count = items|rejectattr('is_dir')|list|length %}\n                    {{ dir_count }} director{{ 'y' if dir_count == 1 else 'ies' }}, \n                    {{ file_count }} file{{ '' if file_count == 1 else 's' }}\n                </small>\n            </div>\n        </div>\n    </div>\n</div>\n{% endblock %}\n\n{% block scripts %}\n<script>\n// Add Jinja2 filter for file size formatting\nfunction formatFileSize(bytes) {\n    if (bytes === 0) return '0 Bytes';\n    const k = 1024;\n    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];\n    const i = Math.floor(Math.log(bytes) / Math.log(k));\n    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];\n}\n</script>\n{% endblock %}"
+    }
+  },
+  {
+    "session_id": "0e123bf8-fc31-4294-872e-edfa1a037990",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\0e123bf8-fc31-4294-872e-edfa1a037990.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\app\\__init__.py",
+      "old_string": "    # Register blueprints\n    from app.main import main_bp, media_bp  \n    app.register_blueprint(main_bp)\n    app.register_blueprint(media_bp)    \n    \n    # Error handlers",
+      "new_string": "    # Register blueprints\n    from app.main import main_bp, media_bp  \n    app.register_blueprint(main_bp)\n    app.register_blueprint(media_bp)    \n    \n    # Custom template filters\n    @app.template_filter('format_file_size')\n    def format_file_size_filter(size):\n        \"\"\"Format file size in human readable format\"\"\"\n        if size is None:\n            return ''\n        if size == 0:\n            return '0 B'\n        \n        units = ['B', 'KB', 'MB', 'GB', 'TB']\n        unit_index = 0\n        size = float(size)\n        \n        while size >= 1024 and unit_index < len(units) - 1:\n            size /= 1024\n            unit_index += 1\n        \n        if unit_index == 0:\n            return f'{int(size)} {units[unit_index]}'\n        else:\n            return f'{size:.2f} {units[unit_index]}'\n    \n    # Error handlers"
+    }
+  },
+  {
+    "session_id": "0e123bf8-fc31-4294-872e-edfa1a037990",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\0e123bf8-fc31-4294-872e-edfa1a037990.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\app\\main\\templates\\main\\media_browser.html",
+      "old_string": "{% endblock %}\n\n{% block scripts %}\n<script>\n// Add Jinja2 filter for file size formatting\nfunction formatFileSize(bytes) {\n    if (bytes === 0) return '0 Bytes';\n    const k = 1024;\n    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];\n    const i = Math.floor(Math.log(bytes) / Math.log(k));\n    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];\n}\n</script>\n{% endblock %}",
+      "new_string": "{% endblock %}"
+    }
+  },
+  {
+    "session_id": "0e123bf8-fc31-4294-872e-edfa1a037990",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\0e123bf8-fc31-4294-872e-edfa1a037990.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\app\\templates\\base.html"
+    }
+  },
+  {
+    "session_id": "0e123bf8-fc31-4294-872e-edfa1a037990",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\0e123bf8-fc31-4294-872e-edfa1a037990.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\app\\templates\\base.html",
+      "old_string": "                    <li class=\"nav-item\">\n                        <a class=\"nav-link\" href=\"{{ url_for('main.dashboard') }}\">\n                            <i class=\"bi bi-graph-up\"></i> Dashboard\n                        </a>\n                    </li>\n                    <li class=\"nav-item\">\n                        <a class=\"nav-link\" href=\"{{ url_for('main.add_application') }}\">\n                            <i class=\"bi bi-plus-circle\"></i> Add App\n                        </a>\n                    </li>",
+      "new_string": "                    <li class=\"nav-item\">\n                        <a class=\"nav-link\" href=\"{{ url_for('main.dashboard') }}\">\n                            <i class=\"bi bi-graph-up\"></i> Dashboard\n                        </a>\n                    </li>\n                    <li class=\"nav-item\">\n                        <a class=\"nav-link\" href=\"{{ url_for('media.media_browser') }}\">\n                            <i class=\"bi bi-images\"></i> Media\n                        </a>\n                    </li>\n                    <li class=\"nav-item\">\n                        <a class=\"nav-link\" href=\"{{ url_for('main.add_application') }}\">\n                            <i class=\"bi bi-plus-circle\"></i> Add App\n                        </a>\n                    </li>"
+    }
+  },
+  {
+    "session_id": "0e123bf8-fc31-4294-872e-edfa1a037990",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\0e123bf8-fc31-4294-872e-edfa1a037990.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Update media routes in routes.py to add directory listing functionality",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Create media_browser.html template for directory listing display",
+          "status": "completed",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update serve_image function to handle subdirectories properly",
+          "status": "completed",
+          "priority": "medium",
+          "id": "3"
+        },
+        {
+          "content": "Test the media browser functionality",
+          "status": "in_progress",
+          "priority": "medium",
+          "id": "4"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "0e123bf8-fc31-4294-872e-edfa1a037990",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\0e123bf8-fc31-4294-872e-edfa1a037990.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "docker-compose up -d",
+      "description": "Start the Docker containers"
+    }
+  },
+  {
+    "session_id": "0e123bf8-fc31-4294-872e-edfa1a037990",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\0e123bf8-fc31-4294-872e-edfa1a037990.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "TodoWrite",
+    "tool_input": {
+      "todos": [
+        {
+          "content": "Update media routes in routes.py to add directory listing functionality",
+          "status": "completed",
+          "priority": "high",
+          "id": "1"
+        },
+        {
+          "content": "Create media_browser.html template for directory listing display",
+          "status": "completed",
+          "priority": "high",
+          "id": "2"
+        },
+        {
+          "content": "Update serve_image function to handle subdirectories properly",
+          "status": "completed",
+          "priority": "medium",
+          "id": "3"
+        },
+        {
+          "content": "Test the media browser functionality",
+          "status": "completed",
+          "priority": "medium",
+          "id": "4"
+        }
+      ]
+    }
+  },
+  {
+    "session_id": "0e123bf8-fc31-4294-872e-edfa1a037990",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\0e123bf8-fc31-4294-872e-edfa1a037990.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\app\\main\\templates\\main\\media_browser.html",
+      "old_string": "                                    <td>\n                                        {% if not item.is_dir %}\n                                            {{ format_file_size(item.size) }}\n                                        {% else %}\n                                            <span class=\"text-muted\">\u00e2\u20ac\u201d</span>\n                                        {% endif %}\n                                    </td>",
+      "new_string": "                                    <td>\n                                        {% if not item.is_dir %}\n                                            {{ item.size|format_file_size }}\n                                        {% else %}\n                                            <span class=\"text-muted\">\u00e2\u20ac\u201d</span>\n                                        {% endif %}\n                                    </td>"
+    }
+  },
+  {
+    "session_id": "dc8d1d4c-9d9c-4d9e-9d02-37f363e17e3f",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\dc8d1d4c-9d9c-4d9e-9d02-37f363e17e3f.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Bash",
+    "tool_input": {
+      "command": "pwd"
+    }
+  },
+  {
+    "session_id": "dc8d1d4c-9d9c-4d9e-9d02-37f363e17e3f",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\dc8d1d4c-9d9c-4d9e-9d02-37f363e17e3f.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\app\\main\\routes.py",
+      "offset": 400,
+      "limit": 50
+    }
+  },
+  {
+    "session_id": "dc8d1d4c-9d9c-4d9e-9d02-37f363e17e3f",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\dc8d1d4c-9d9c-4d9e-9d02-37f363e17e3f.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\app\\main\\routes.py",
+      "offset": 420,
+      "limit": 10
+    }
+  },
+  {
+    "session_id": "dc8d1d4c-9d9c-4d9e-9d02-37f363e17e3f",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\dc8d1d4c-9d9c-4d9e-9d02-37f363e17e3f.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\app\\main\\templates\\main\\inventory\\index.html",
+      "offset": 100,
+      "limit": 110
+    }
+  },
+  {
+    "session_id": "dc8d1d4c-9d9c-4d9e-9d02-37f363e17e3f",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\dc8d1d4c-9d9c-4d9e-9d02-37f363e17e3f.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Read",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\app\\main\\routes.py",
+      "offset": 0,
+      "limit": 20
+    }
+  },
+  {
+    "session_id": "dc8d1d4c-9d9c-4d9e-9d02-37f363e17e3f",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\dc8d1d4c-9d9c-4d9e-9d02-37f363e17e3f.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\app\\main\\routes.py",
+      "old_string": "from bson.errors import InvalidId\nfrom datetime import datetime",
+      "new_string": "from bson.errors import InvalidId\nfrom datetime import datetime, timedelta"
+    }
+  },
+  {
+    "session_id": "dc8d1d4c-9d9c-4d9e-9d02-37f363e17e3f",
+    "transcript_path": "C:\\Users\\joshc\\.claude\\projects\\C--Users-joshc-centralmanagement\\dc8d1d4c-9d9c-4d9e-9d02-37f363e17e3f.jsonl",
+    "cwd": "C:\\Users\\joshc\\centralmanagement",
+    "hook_event_name": "PreToolUse",
+    "tool_name": "Edit",
+    "tool_input": {
+      "file_path": "C:\\Users\\joshc\\centralmanagement\\app\\main\\routes.py",
+      "old_string": "def inventory_index():\n    \"\"\"Display list of all inventory items\"\"\"\n    items = InventoryItem.get_all()\n    low_stock_items = [item for item in items if item['is_low_stock']]\n    return render_template('main/inventory/index.html', \n                         items=items, \n                         low_stock_count=len(low_stock_items))",
+      "new_string": "def inventory_index():\n    \"\"\"Display list of all inventory items\"\"\"\n    items = InventoryItem.get_all()\n    low_stock_items = [item for item in items if item['is_low_stock']]\n    return render_template('main/inventory/index.html', \n                         items=items, \n                         low_stock_count=len(low_stock_items),\n                         datetime=datetime,\n                         timedelta=timedelta)"
+    }
   }
 ]

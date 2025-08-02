@@ -5,6 +5,7 @@ services:
       - "8026:5000"
     volumes:
       - .:/app
+      - "C:/Users/joshc/OneDrive/Pictures:/app/main/media_files"
     environment:
       - FLASK_APP=app
       - FLASK_ENV=development

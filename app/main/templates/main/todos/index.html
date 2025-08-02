@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+
+{% block title %}Todo List{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1>Todo List</h1>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="{{ url_for('main.add_todo') }}" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Add Todo
+            </a>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Total</h5>
+                    <h2 class="text-primary">{{ stats.total }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Todo</h5>
+                    <h2 class="text-warning">{{ stats.todo }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">In Progress</h5>
+                    <h2 class="text-info">{{ stats.in_progress }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h5 class="card-title">Completed</h5>
+                    <h2 class="text-success">{{ stats.completed }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Stats -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">Completion Rate</h6>
+                    <div class="progress" style="height: 25px;">
+                        <div class="progress-bar bg-success" role="progressbar" 
+                             style="width: {{ stats.completion_rate }}%;" 
+                             aria-valuenow="{{ stats.completion_rate }}" 
+                             aria-valuemin="0" aria-valuemax="100">
+                            {{ stats.completion_rate }}%
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">Priority Breakdown</h6>
+                    <div class="d-flex justify-content-between">
+                        <span class="badge bg-danger">High: {{ stats.high_priority }}</span>
+                        <span class="badge bg-warning">Medium: {{ stats.medium_priority }}</span>
+                        <span class="badge bg-info">Low: {{ stats.low_priority }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">Overdue Tasks</h6>
+                    <h3 class="text-danger">{{ stats.overdue }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="row mb-3">
+        <div class="col-md-12">
+            <form method="GET" action="{{ url_for('main.todos_index') }}" class="row g-3">
+                <div class="col-md-3">
+                    <label for="status" class="form-label">Filter by Status</label>
+                    <select name="status" id="status" class="form-select" onchange="this.form.submit()">
+                        <option value="">All Statuses</option>
+                        {% for status in statuses %}
+                            <option value="{{ status }}" {% if status_filter == status %}selected{% endif %}>
+                                {{ status }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="priority" class="form-label">Filter by Priority</label>
+                    <select name="priority" id="priority" class="form-select" onchange="this.form.submit()">
+                        <option value="">All Priorities</option>
+                        {% for priority in priorities %}
+                            <option value="{{ priority }}" {% if priority_filter == priority %}selected{% endif %}>
+                                {{ priority }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="tag" class="form-label">Filter by Tag</label>
+                    <select name="tag" id="tag" class="form-select" onchange="this.form.submit()">
+                        <option value="">All Tags</option>
+                        {% for tag in all_tags %}
+                            <option value="{{ tag }}" {% if tag_filter == tag %}selected{% endif %}>
+                                {{ tag }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">&nbsp;</label>
+                    <a href="{{ url_for('main.todos_index') }}" class="btn btn-secondary d-block">
+                        <i class="bi bi-x-circle"></i> Clear Filters
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Todo List -->
+    <div class="row">
+        <div class="col-md-12">
+            {% if todos %}
+                <div class="list-group">
+                    {% for todo in todos %}
+                        <div class="list-group-item">
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <h5 class="mb-1">
+                                        <a href="{{ url_for('main.todo_detail', todo_id=todo._id) }}" 
+                                           class="text-decoration-none">
+                                            {{ todo.title }}
+                                        </a>
+                                    </h5>
+                                    {% if todo.description %}
+                                        <p class="mb-1 text-muted">{{ todo.description|truncate(100) }}</p>
+                                    {% endif %}
+                                    <div class="mt-2">
+                                        {% if todo.tags %}
+                                            {% for tag in todo.tags %}
+                                                <a href="{{ url_for('main.todos_index', tag=tag) }}" 
+                                                   class="badge bg-secondary me-1 text-decoration-none">
+                                                    {{ tag }}
+                                                </a>
+                                            {% endfor %}
+                                        {% endif %}
+                                        {% if todo.assigned_to %}
+                                            <span class="badge bg-primary">
+                                                <i class="bi bi-person"></i> {{ todo.assigned_to }}
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="mb-2">
+                                        <span class="badge bg-{{ 'danger' if todo.priority == 'High' else 'warning' if todo.priority == 'Medium' else 'info' }}">
+                                            {{ todo.priority }} Priority
+                                        </span>
+                                    </div>
+                                    {% if todo.due_date %}
+                                        <small class="text-{{ 'danger' if todo.is_overdue else 'muted' }}">
+                                            <i class="bi bi-calendar"></i> 
+                                            Due: {{ todo.due_date.strftime('%Y-%m-%d') }}
+                                            {% if todo.is_overdue %}
+                                                <span class="badge bg-danger">Overdue</span>
+                                            {% endif %}
+                                        </small>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-3 text-end">
+                                    <form method="POST" action="{{ url_for('main.quick_update_todo', todo_id=todo._id) }}" 
+                                          class="d-inline">
+                                        <select name="status" class="form-select form-select-sm d-inline-block w-auto" 
+                                                onchange="this.form.submit()">
+                                            {% for status in statuses %}
+                                                <option value="{{ status }}" 
+                                                        {% if todo.status == status %}selected{% endif %}>
+                                                    {{ status }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </form>
+                                    <a href="{{ url_for('main.todo_detail', todo_id=todo._id) }}" 
+                                       class="btn btn-sm btn-outline-primary ms-2">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle"></i> 
+                    {% if status_filter or priority_filter or tag_filter %}
+                        No todos found with the selected filters.
+                    {% else %}
+                        No todos yet. Create your first todo!
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Bottom Add Todo Button -->
+    <div class="row mt-4">
+        <div class="col-md-12 text-center">
+            <a href="{{ url_for('main.add_todo') }}" class="btn btn-primary btn-lg">
+                <i class="bi bi-plus-circle"></i> Add New Todo
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}Media Browser{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">
+                <i class="bi bi-folder2-open"></i> Media Browser
+            </h1>
+            
+            <!-- Breadcrumb navigation -->
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{{ url_for('media.media_browser') }}">
+                            <i class="bi bi-house-door"></i> Media
+                        </a>
+                    </li>
+                    {% for crumb in breadcrumbs %}
+                    <li class="breadcrumb-item {% if loop.last %}active{% endif %}">
+                        {% if loop.last %}
+                            {{ crumb.name }}
+                        {% else %}
+                            <a href="{{ url_for('media.media_browser', subpath=crumb.path) }}">{{ crumb.name }}</a>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ol>
+            </nav>
+
+            <!-- File listing -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th style="width: 40px;"></th>
+                                    <th>Name</th>
+                                    <th style="width: 150px;">Size</th>
+                                    <th style="width: 200px;">Modified</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if current_path %}
+                                <!-- Parent directory link -->
+                                <tr>
+                                    <td class="text-center">
+                                        <i class="bi bi-arrow-up-circle text-secondary"></i>
+                                    </td>
+                                    <td>
+                                        <a href="{{ url_for('media.media_browser', subpath='/'.join(current_path.split('/')[:-1])) if '/' in current_path else url_for('media.media_browser') }}">
+                                            ..
+                                        </a>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                {% endif %}
+                                
+                                {% for item in items %}
+                                <tr>
+                                    <td class="text-center">
+                                        {% if item.is_dir %}
+                                            <i class="bi bi-folder-fill text-warning"></i>
+                                        {% else %}
+                                            {% if item.extension in ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.svg', '.webp'] %}
+                                                <i class="bi bi-file-image text-success"></i>
+                                            {% elif item.extension in ['.mp4', '.avi', '.mov', '.wmv', '.flv', '.webm'] %}
+                                                <i class="bi bi-file-play text-info"></i>
+                                            {% elif item.extension in ['.pdf'] %}
+                                                <i class="bi bi-file-pdf text-danger"></i>
+                                            {% elif item.extension in ['.doc', '.docx'] %}
+                                                <i class="bi bi-file-word text-primary"></i>
+                                            {% elif item.extension in ['.xls', '.xlsx'] %}
+                                                <i class="bi bi-file-excel text-success"></i>
+                                            {% elif item.extension in ['.zip', '.rar', '.7z', '.tar', '.gz'] %}
+                                                <i class="bi bi-file-zip text-secondary"></i>
+                                            {% else %}
+                                                <i class="bi bi-file-earmark text-secondary"></i>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if item.is_dir %}
+                                            <a href="{{ url_for('media.media_browser', subpath=item.path) }}">
+                                                {{ item.name }}
+                                            </a>
+                                        {% else %}
+                                            <a href="{{ url_for('media.serve_image', filename=item.path) }}" target="_blank">
+                                                {{ item.name }}
+                                            </a>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if not item.is_dir %}
+                                            {{ item.size|format_file_size }}
+                                        {% else %}
+                                            <span class="text-muted">—</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if not item.is_dir %}
+                                            {{ item.modified.strftime('%Y-%m-%d %H:%M') }}
+                                        {% else %}
+                                            <span class="text-muted">—</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted">
+                                        <i class="bi bi-folder-x"></i> This directory is empty
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Summary -->
+            <div class="mt-3 text-muted">
+                <small>
+                    {% set dir_count = items|selectattr('is_dir')|list|length %}
+                    {% set file_count = items|rejectattr('is_dir')|list|length %}
+                    {{ dir_count }} director{{ 'y' if dir_count == 1 else 'ies' }}, 
+                    {{ file_count }} file{{ '' if file_count == 1 else 's' }}
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,8 +1,8 @@
 from flask import render_template, request, redirect, url_for, flash
-from app.main import main_bp
-from app.models.mongo_models import Application, Task, Pet, InventoryItem
+from app.main import main_bp, media_bp
+from app.models.mongo_models import Application, Task, Pet, InventoryItem, Todo
 from bson.errors import InvalidId
-from datetime import datetime
+from datetime import datetime, timedelta
 
 @main_bp.route('/')
 @main_bp.route('/applications')
@@ -184,6 +184,7 @@ def dashboard():
     applications = Application.get_all()
     pets = Pet.get_all()
     inventory_items = InventoryItem.get_all()
+    todo_stats = Todo.get_statistics()
     
     # Calculate application statistics
     total_apps = len(applications)
@@ -249,7 +250,8 @@ def dashboard():
                          total_inventory_items=total_inventory_items,
                          low_stock_items=low_stock_items,
                          total_inventory_value=total_inventory_value,
-                         expiring_soon=expiring_soon)
+                         expiring_soon=expiring_soon,
+                         todo_stats=todo_stats)
 
 
 # Pet Routes
@@ -422,7 +424,9 @@ def inventory_index():
     low_stock_items = [item for item in items if item['is_low_stock']]
     return render_template('main/inventory/index.html', 
                          items=items, 
-                         low_stock_count=len(low_stock_items))
+                         low_stock_count=len(low_stock_items),
+                         datetime=datetime,
+                         timedelta=timedelta)
 
 
 @main_bp.route('/inventory/add', methods=['GET', 'POST'])
@@ -521,7 +525,8 @@ def inventory_detail(item_id):
                              associated_pets=associated_pets,
                              all_pets=all_pets,
                              category_options=InventoryItem.CATEGORIES,
-                             unit_options=InventoryItem.UNITS)
+                             unit_options=InventoryItem.UNITS,
+                             datetime=datetime)
     except InvalidId:
         flash('Invalid inventory item ID', 'danger')
         return redirect(url_for('main.inventory_index'))
@@ -617,3 +622,267 @@ def delete_inventory(item_id):
     except InvalidId:
         flash('Invalid inventory item ID', 'danger')
         return redirect(url_for('main.inventory_index'))
+
+
+# Todo Routes
+@main_bp.route('/todos')
+def todos_index():
+    """Display list of all todos with filtering options"""
+    status_filter = request.args.get('status')
+    priority_filter = request.args.get('priority')
+    tag_filter = request.args.get('tag')
+    
+    todos = Todo.get_all(status_filter=status_filter, priority_filter=priority_filter, tag_filter=tag_filter)
+    stats = Todo.get_statistics()
+    all_tags = Todo.get_all_tags()
+    
+    return render_template('main/todos/index.html', 
+                         todos=todos,
+                         stats=stats,
+                         status_filter=status_filter,
+                         priority_filter=priority_filter,
+                         tag_filter=tag_filter,
+                         priorities=Todo.PRIORITIES,
+                         statuses=Todo.STATUSES,
+                         all_tags=all_tags,
+                         datetime=datetime)
+
+
+@main_bp.route('/todos/add', methods=['GET', 'POST'])
+def add_todo():
+    """Add a new todo item"""
+    if request.method == 'POST':
+        title = request.form.get('title', '').strip()
+        description = request.form.get('description', '').strip()
+        priority = request.form.get('priority', 'Medium')
+        status = request.form.get('status', 'Todo')
+        assigned_to = request.form.get('assigned_to', '').strip()
+        tags = request.form.get('tags', '').strip()
+        
+        # Handle due date
+        due_date_str = request.form.get('due_date', '').strip()
+        due_date = None
+        if due_date_str:
+            try:
+                due_date = datetime.strptime(due_date_str, '%Y-%m-%d')
+            except ValueError:
+                flash('Invalid due date format', 'danger')
+                return redirect(url_for('main.add_todo'))
+        
+        # Process tags
+        tag_list = [tag.strip() for tag in tags.split(',') if tag.strip()] if tags else []
+        
+        # Validate required fields
+        if not title:
+            flash('Todo title is required', 'danger')
+            return redirect(url_for('main.add_todo'))
+        
+        # Create the todo
+        try:
+            todo_id = Todo.create(title, description, priority, status, due_date, tag_list, assigned_to)
+            flash(f'Todo "{title}" added successfully!', 'success')
+            return redirect(url_for('main.todo_detail', todo_id=todo_id))
+        except Exception as e:
+            flash(f'Error adding todo: {str(e)}', 'danger')
+            return redirect(url_for('main.add_todo'))
+    
+    return render_template('main/todos/add_todo.html',
+                         priorities=Todo.PRIORITIES,
+                         statuses=Todo.STATUSES)
+
+
+@main_bp.route('/todos/<todo_id>')
+def todo_detail(todo_id):
+    """Display todo details"""
+    try:
+        todo = Todo.get_by_id(todo_id)
+        if not todo:
+            flash('Todo not found', 'danger')
+            return redirect(url_for('main.todos_index'))
+        
+        return render_template('main/todos/todo_detail.html',
+                             todo=todo,
+                             priorities=Todo.PRIORITIES,
+                             statuses=Todo.STATUSES,
+                             datetime=datetime)
+    except InvalidId:
+        flash('Invalid todo ID', 'danger')
+        return redirect(url_for('main.todos_index'))
+
+
+@main_bp.route('/todos/<todo_id>/update', methods=['POST'])
+def update_todo(todo_id):
+    """Update a todo item"""
+    try:
+        todo = Todo.get_by_id(todo_id)
+        if not todo:
+            flash('Todo not found', 'danger')
+            return redirect(url_for('main.todos_index'))
+        
+        # Handle due date
+        due_date_str = request.form.get('due_date', '').strip()
+        due_date = todo.get('due_date')
+        if due_date_str:
+            try:
+                due_date = datetime.strptime(due_date_str, '%Y-%m-%d')
+            except ValueError:
+                flash('Invalid due date format', 'danger')
+                return redirect(url_for('main.todo_detail', todo_id=todo_id))
+        elif due_date_str == '':
+            due_date = None
+        
+        # Process tags
+        tags = request.form.get('tags', '')
+        tag_list = [tag.strip() for tag in tags.split(',') if tag.strip()] if tags else []
+        
+        update_data = {
+            'title': request.form.get('title', todo['title']).strip(),
+            'description': request.form.get('description', todo.get('description', '')).strip(),
+            'priority': request.form.get('priority', todo['priority']),
+            'status': request.form.get('status', todo['status']),
+            'due_date': due_date,
+            'tags': tag_list,
+            'assigned_to': request.form.get('assigned_to', todo.get('assigned_to', '')).strip()
+        }
+        
+        if Todo.update(todo_id, update_data):
+            flash('Todo updated successfully!', 'success')
+        else:
+            flash('Error updating todo', 'danger')
+        
+        return redirect(url_for('main.todo_detail', todo_id=todo_id))
+    except InvalidId:
+        flash('Invalid todo ID', 'danger')
+        return redirect(url_for('main.todos_index'))
+
+
+@main_bp.route('/todos/<todo_id>/delete', methods=['POST'])
+def delete_todo(todo_id):
+    """Delete a todo item"""
+    try:
+        todo = Todo.get_by_id(todo_id)
+        if not todo:
+            flash('Todo not found', 'danger')
+            return redirect(url_for('main.todos_index'))
+        
+        if Todo.delete(todo_id):
+            flash(f'Todo "{todo["title"]}" deleted successfully!', 'success')
+        else:
+            flash('Error deleting todo', 'danger')
+        
+        return redirect(url_for('main.todos_index'))
+    except InvalidId:
+        flash('Invalid todo ID', 'danger')
+        return redirect(url_for('main.todos_index'))
+
+
+@main_bp.route('/todos/<todo_id>/quick-update', methods=['POST'])
+def quick_update_todo(todo_id):
+    """Quick update todo status from list view"""
+    try:
+        todo = Todo.get_by_id(todo_id)
+        if not todo:
+            flash('Todo not found', 'danger')
+            return redirect(url_for('main.todos_index'))
+        
+        new_status = request.form.get('status', todo['status'])
+        
+        update_data = {'status': new_status}
+        
+        if Todo.update(todo_id, update_data):
+            flash(f'Todo status updated to {new_status}!', 'success')
+        else:
+            flash('Error updating todo status', 'danger')
+        
+        return redirect(url_for('main.todos_index'))
+    except InvalidId:
+        flash('Invalid todo ID', 'danger')
+        return redirect(url_for('main.todos_index'))
+
+from flask import send_from_directory, current_app, abort
+import os
+from pathlib import Path
+from datetime import datetime
+
+@media_bp.route('/media/')
+@media_bp.route('/media/<path:subpath>')
+def media_browser(subpath=''):
+    """Browse media files and directories"""
+    media_root = Path('/app/main/media_files')
+    current_path = media_root / subpath
+    
+    # Security check: ensure we're not going outside media_root
+    try:
+        current_path = current_path.resolve()
+        if not str(current_path).startswith(str(media_root)):
+            abort(403)
+    except:
+        abort(404)
+    
+    if not current_path.exists():
+        abort(404)
+    
+    if current_path.is_file():
+        # If it's a file, serve it
+        directory = str(current_path.parent.relative_to(media_root))
+        if directory == '.':
+            directory = ''
+        return send_from_directory(str(current_path.parent), current_path.name)
+    
+    # It's a directory, list contents
+    items = []
+    for item in sorted(current_path.iterdir()):
+        relative_path = item.relative_to(media_root)
+        
+        if item.is_file():
+            stat = item.stat()
+            items.append({
+                'name': item.name,
+                'path': str(relative_path).replace('\\', '/'),
+                'is_dir': False,
+                'size': stat.st_size,
+                'modified': datetime.fromtimestamp(stat.st_mtime),
+                'extension': item.suffix.lower()
+            })
+        else:
+            items.append({
+                'name': item.name,
+                'path': str(relative_path).replace('\\', '/'),
+                'is_dir': True,
+                'size': None,
+                'modified': None,
+                'extension': None
+            })
+    
+    # Create breadcrumb navigation
+    breadcrumbs = []
+    if subpath:
+        parts = subpath.split('/')
+        for i, part in enumerate(parts):
+            breadcrumbs.append({
+                'name': part,
+                'path': '/'.join(parts[:i+1])
+            })
+    
+    return render_template('main/media_browser.html',
+                         items=items,
+                         current_path=subpath,
+                         breadcrumbs=breadcrumbs)
+
+@media_bp.route('/media/<path:filename>')
+def serve_image(filename):
+    media_root = Path('/app/main/media_files')
+    file_path = media_root / filename
+    
+    # Security check
+    try:
+        file_path = file_path.resolve()
+        if not str(file_path).startswith(str(media_root)):
+            abort(403)
+    except:
+        abort(404)
+    
+    if not file_path.exists() or not file_path.is_file():
+        abort(404)
+    
+    return send_from_directory(str(file_path.parent), file_path.name)
